@@ -1,0 +1,1820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zoho Nest — HOA Operations Platform</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #F8F7F5;
+      --white: #FFFFFF;
+      --text: #111110;
+      --text-secondary: #6B6B6A;
+      --accent: #2563EB;
+      --accent-light: #EFF6FF;
+      --border: #E4E4E3;
+      --card-bg: #FFFFFF;
+      --success: #16A34A;
+      --warning: #D97706;
+      --shadow: 0 1px 3px rgba(0,0,0,0.08);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+      --radius: 10px;
+      --radius-sm: 8px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── UTILITIES ── */
+    .container { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+    .section-white { background: var(--white); }
+    .section-gray { background: var(--bg); }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── NAVBAR ── */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,0.96);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(8px);
+    }
+    .navbar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+    }
+    .navbar-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    .navbar-logo-icon {
+      width: 32px;
+      height: 32px;
+      background: var(--accent);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .navbar-logo-text { display: flex; flex-direction: column; line-height: 1.2; }
+    .navbar-logo-name { font-size: 15px; font-weight: 700; color: var(--text); letter-spacing: -0.3px; }
+    .navbar-logo-tagline { font-size: 10px; font-weight: 500; color: var(--text-secondary); letter-spacing: 0.5px; text-transform: uppercase; }
+
+    .navbar-links {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      list-style: none;
+    }
+    .navbar-links a {
+      text-decoration: none;
+      color: var(--text-secondary);
+      font-size: 14px;
+      font-weight: 500;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: color 0.15s, background 0.15s;
+    }
+    .navbar-links a:hover { color: var(--text); background: var(--bg); }
+
+    .navbar-cta { display: flex; align-items: center; gap: 8px; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 18px;
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+      text-decoration: none;
+      border: none;
+    }
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover { background: var(--bg); border-color: #ccc; }
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+    }
+    .btn-primary:hover { background: #1d4ed8; }
+    .btn-primary-lg {
+      padding: 12px 26px;
+      font-size: 15px;
+      border-radius: var(--radius-sm);
+    }
+    .btn-outline-lg {
+      padding: 12px 26px;
+      font-size: 15px;
+      border-radius: var(--radius-sm);
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-outline-lg:hover { background: var(--bg); }
+
+    /* ── HERO ── */
+    .hero {
+      background: var(--white);
+      padding: 80px 0 60px;
+      text-align: center;
+    }
+    .hero-label {
+      display: inline-block;
+      background: var(--accent-light);
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 100px;
+      margin-bottom: 24px;
+    }
+    .hero h1 {
+      font-size: clamp(32px, 5vw, 54px);
+      font-weight: 800;
+      letter-spacing: -1.5px;
+      line-height: 1.1;
+      color: var(--text);
+      max-width: 800px;
+      margin: 0 auto 20px;
+    }
+    .hero h1 span { color: var(--accent); }
+    .hero-sub {
+      font-size: 18px;
+      color: var(--text-secondary);
+      max-width: 620px;
+      margin: 0 auto 36px;
+      line-height: 1.65;
+    }
+    .hero-cta { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 16px; }
+    .hero-trust {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-bottom: 56px;
+    }
+    .hero-trust span { color: var(--success); font-weight: 600; }
+
+    /* ── DASHBOARD MOCKUP ── */
+    .dashboard-wrapper {
+      max-width: 960px;
+      margin: 0 auto;
+      position: relative;
+    }
+    .browser-chrome {
+      background: #e8e7e5;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.12), 0 4px 12px rgba(0,0,0,0.08);
+    }
+    .browser-bar {
+      background: #e0dfdd;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid #ccc;
+    }
+    .browser-dots { display: flex; gap: 6px; }
+    .browser-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+    }
+    .dot-red { background: #FF5F57; }
+    .dot-yellow { background: #FFBD2E; }
+    .dot-green { background: #28C840; }
+    .browser-url {
+      flex: 1;
+      background: white;
+      border-radius: 5px;
+      padding: 4px 12px;
+      font-size: 11px;
+      color: var(--text-secondary);
+      font-family: 'Inter', monospace;
+    }
+
+    .dashboard-scale-wrap {
+      transform-origin: top left;
+      width: 1200px;
+      transform: scale(0.733);
+      height: 560px;
+    }
+    .dashboard-frame {
+      display: flex;
+      height: 760px;
+      background: var(--bg);
+      font-size: 13px;
+    }
+
+    /* Sidebar */
+    .db-sidebar {
+      width: 210px;
+      min-width: 210px;
+      background: var(--white);
+      border-right: 1px solid var(--border);
+      padding: 0;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+    .db-sidebar-logo {
+      padding: 16px 16px 12px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .db-sidebar-logo-icon {
+      width: 28px; height: 28px;
+      background: var(--accent);
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      color: white; font-size: 12px; font-weight: 700;
+    }
+    .db-sidebar-logo-text { font-size: 13px; font-weight: 700; color: var(--text); }
+    .db-sidebar-section { padding: 12px 12px 4px; }
+    .db-sidebar-section-label {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      padding: 0 4px;
+      margin-bottom: 4px;
+    }
+    .db-nav-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      cursor: pointer;
+      margin-bottom: 1px;
+    }
+    .db-nav-item.active {
+      background: var(--accent-light);
+      color: var(--accent);
+      font-weight: 600;
+    }
+    .db-nav-item:hover:not(.active) { background: var(--bg); color: var(--text); }
+    .db-nav-icon { font-size: 13px; width: 16px; text-align: center; }
+
+    /* Main dashboard */
+    .db-main {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+    .db-topbar {
+      background: white;
+      border-bottom: 1px solid var(--border);
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .db-topbar-left h2 { font-size: 15px; font-weight: 700; color: var(--text); }
+    .db-topbar-left p { font-size: 11px; color: var(--text-secondary); }
+    .db-topbar-right { display: flex; gap: 8px; align-items: center; }
+    .db-avatar {
+      width: 28px; height: 28px; background: #ddd; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 700; color: #666;
+    }
+    .db-badge {
+      background: #FEF3C7; color: var(--warning);
+      font-size: 10px; font-weight: 600;
+      padding: 3px 8px; border-radius: 100px;
+    }
+
+    .db-content { padding: 20px; flex: 1; }
+
+    /* Stat cards */
+    .db-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 16px; }
+    .db-stat-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 16px;
+    }
+    .db-stat-label { font-size: 10px; color: var(--text-secondary); font-weight: 500; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .db-stat-value { font-size: 22px; font-weight: 800; color: var(--text); letter-spacing: -0.5px; }
+    .db-stat-value.green { color: var(--success); }
+    .db-stat-value.red { color: #DC2626; }
+    .db-stat-sub { font-size: 10px; color: var(--text-secondary); margin-top: 4px; }
+
+    /* Middle row */
+    .db-middle { display: grid; grid-template-columns: 1fr 300px; gap: 12px; }
+
+    .db-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px;
+    }
+    .db-card-title {
+      font-size: 11px; font-weight: 700; color: var(--text);
+      text-transform: uppercase; letter-spacing: 0.5px;
+      margin-bottom: 10px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .db-card-badge {
+      background: var(--accent-light); color: var(--accent);
+      font-size: 9px; font-weight: 600; padding: 2px 7px; border-radius: 100px;
+      text-transform: none; letter-spacing: 0;
+    }
+
+    /* DG Table */
+    .db-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+    .db-table th {
+      text-align: left; font-size: 9px; font-weight: 600;
+      color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px;
+      padding: 0 8px 6px; border-bottom: 1px solid var(--border);
+    }
+    .db-table td { padding: 6px 8px; border-bottom: 1px solid #f5f5f4; color: var(--text); }
+    .db-table tr:last-child td { border-bottom: none; }
+    .status-dot {
+      display: inline-block; width: 6px; height: 6px;
+      border-radius: 50%; margin-right: 4px;
+    }
+    .status-dot.on { background: var(--success); }
+    .status-dot.off { background: #ccc; }
+
+    /* Today's Plan */
+    .plan-list { list-style: none; }
+    .plan-item {
+      display: flex; align-items: flex-start; gap: 8px;
+      padding: 5px 0;
+      border-bottom: 1px solid #f5f5f4;
+      font-size: 11px;
+    }
+    .plan-item:last-child { border-bottom: none; }
+    .plan-num {
+      width: 16px; height: 16px; min-width: 16px;
+      background: var(--accent-light); color: var(--accent);
+      border-radius: 50%; font-size: 9px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .plan-text { color: var(--text); line-height: 1.4; }
+
+    /* ── STATS BAR ── */
+    .stats-bar {
+      background: var(--text);
+      padding: 18px 0;
+    }
+    .stats-bar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      font-size: 14px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.7);
+    }
+    .stats-bar-value { color: white; font-weight: 700; }
+    .stats-bar-sep { color: rgba(255,255,255,0.25); margin: 0 4px; }
+
+    /* ── PRODUCT OVERVIEW ── */
+    .product-overview {
+      background: var(--white);
+      padding: 96px 0;
+    }
+    .overview-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 72px;
+      align-items: start;
+    }
+    .overview-left h2 {
+      font-size: clamp(28px, 3.5vw, 40px);
+      font-weight: 800;
+      letter-spacing: -1px;
+      line-height: 1.15;
+      margin-bottom: 28px;
+      color: var(--text);
+    }
+    .overview-left p {
+      font-size: 15px;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+      line-height: 1.7;
+    }
+    .overview-right { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .module-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+    }
+    .module-card-icon { font-size: 20px; margin-bottom: 8px; }
+    .module-card-title { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+    .module-card-items { font-size: 11px; color: var(--text-secondary); line-height: 1.6; }
+
+    /* ── FEATURE ARCHITECTURE ── */
+    .features {
+      background: var(--bg);
+      padding: 96px 0;
+    }
+    .section-header { text-align: center; margin-bottom: 56px; }
+    .section-label {
+      display: inline-block;
+      font-size: 12px; font-weight: 600;
+      letter-spacing: 0.8px; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 14px;
+    }
+    .section-header h2 {
+      font-size: clamp(26px, 3vw, 38px);
+      font-weight: 800;
+      letter-spacing: -0.8px;
+      color: var(--text);
+      margin-bottom: 14px;
+    }
+    .section-header p {
+      font-size: 16px;
+      color: var(--text-secondary);
+      max-width: 560px;
+      margin: 0 auto;
+    }
+    .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .feature-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      box-shadow: var(--shadow);
+    }
+    .feature-icon {
+      width: 44px; height: 44px;
+      background: var(--accent-light);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+      margin-bottom: 18px;
+    }
+    .feature-card h3 { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 12px; }
+    .feature-list { list-style: none; }
+    .feature-list li {
+      display: flex; align-items: flex-start; gap: 8px;
+      font-size: 13px; color: var(--text-secondary);
+      margin-bottom: 7px;
+      line-height: 1.5;
+    }
+    .feature-list li::before {
+      content: "→";
+      color: var(--accent); font-size: 11px;
+      margin-top: 2px; flex-shrink: 0;
+    }
+
+    /* ── WORKFLOW ── */
+    .workflow {
+      background: var(--white);
+      padding: 96px 0;
+    }
+    .workflow-steps {
+      display: flex;
+      gap: 0;
+      margin-top: 56px;
+      position: relative;
+    }
+    .workflow-steps::before {
+      content: '';
+      position: absolute;
+      top: 22px;
+      left: 0; right: 0;
+      height: 2px;
+      background: var(--border);
+      z-index: 0;
+    }
+    .workflow-step {
+      flex: 1;
+      padding: 0 12px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .workflow-step-num {
+      width: 44px; height: 44px;
+      background: var(--accent);
+      color: white;
+      border-radius: 50%;
+      font-size: 16px; font-weight: 800;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 16px;
+      border: 3px solid white;
+      box-shadow: 0 0 0 2px var(--border);
+    }
+    .workflow-step h4 { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+    .workflow-step p { font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
+
+    /* ── ROLE-BASED VALUE ── */
+    .roles {
+      background: var(--bg);
+      padding: 96px 0;
+    }
+    .roles-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .role-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+      box-shadow: var(--shadow);
+    }
+    .role-card-tag {
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.6px; text-transform: uppercase;
+      color: var(--accent);
+      background: var(--accent-light);
+      display: inline-block; padding: 4px 10px; border-radius: 100px;
+      margin-bottom: 16px;
+    }
+    .role-card h3 { font-size: 18px; font-weight: 800; color: var(--text); margin-bottom: 10px; letter-spacing: -0.3px; }
+    .role-card .role-desc { font-size: 14px; color: var(--text-secondary); margin-bottom: 20px; line-height: 1.6; }
+    .role-benefits { list-style: none; }
+    .role-benefits li {
+      font-size: 13px; color: var(--text-secondary);
+      padding: 5px 0;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .role-benefits li:last-child { border-bottom: none; }
+    .role-benefits li::before {
+      content: "✓";
+      color: var(--success); font-size: 12px; font-weight: 700; flex-shrink: 0;
+    }
+
+    /* ── PRODUCT SHOWCASE ── */
+    .showcase {
+      background: var(--white);
+      padding: 96px 0;
+    }
+    .showcase-header { text-align: center; margin-bottom: 56px; }
+    .showcase-mini-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 32px;
+    }
+    .showcase-mini-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+    .showcase-mini-header {
+      background: white;
+      border-bottom: 1px solid var(--border);
+      padding: 10px 14px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text);
+      display: flex; align-items: center; gap: 6px;
+    }
+    .showcase-mini-header .mini-dot {
+      width: 7px; height: 7px; background: var(--accent); border-radius: 50%;
+    }
+    .showcase-mini-body { padding: 14px; }
+
+    /* DG Mini Table */
+    .mini-table { width: 100%; border-collapse: collapse; font-size: 10px; }
+    .mini-table th {
+      text-align: left; font-size: 9px; font-weight: 600;
+      color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.3px;
+      padding: 0 6px 5px; border-bottom: 1px solid var(--border);
+    }
+    .mini-table td { padding: 4px 6px; border-bottom: 1px solid #f5f5f4; color: var(--text); font-size: 10px; }
+    .mini-table tr:last-child td { border-bottom: none; }
+
+    /* Today's Plan mini */
+    .mini-plan-item {
+      display: flex; align-items: flex-start; gap: 6px;
+      padding: 4px 0;
+      border-bottom: 1px solid #f5f5f4;
+      font-size: 10px; color: var(--text-secondary);
+    }
+    .mini-plan-item:last-child { border-bottom: none; }
+    .mini-plan-num {
+      width: 14px; height: 14px; min-width: 14px;
+      background: var(--accent-light); color: var(--accent);
+      border-radius: 50%; font-size: 8px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    /* Finance mini */
+    .mini-finance-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 5px 0; border-bottom: 1px solid #f5f5f4;
+      font-size: 10px;
+    }
+    .mini-finance-row:last-child { border-bottom: none; }
+    .mini-finance-label { color: var(--text-secondary); }
+    .mini-finance-value { font-weight: 700; color: var(--text); }
+    .mini-finance-value.green { color: var(--success); }
+    .mini-finance-value.red { color: #DC2626; }
+
+    /* ── TRUST ── */
+    .trust {
+      background: var(--bg);
+      padding: 96px 0;
+    }
+    .trust-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+    .trust-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 24px;
+      box-shadow: var(--shadow);
+    }
+    .trust-icon { font-size: 28px; margin-bottom: 14px; }
+    .trust-card h4 { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+    .trust-card p { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+
+    /* ── FAQ ── */
+    .faq { background: var(--white); padding: 96px 0; }
+    .faq-list { max-width: 720px; margin: 0 auto; }
+    .faq-item {
+      border-bottom: 1px solid var(--border);
+    }
+    .faq-question {
+      width: 100%;
+      background: none;
+      border: none;
+      text-align: left;
+      padding: 20px 0;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+    .faq-question:hover { color: var(--accent); }
+    .faq-chevron {
+      width: 20px; height: 20px; min-width: 20px;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px;
+      transition: transform 0.2s, background 0.2s;
+      color: var(--text-secondary);
+    }
+    .faq-item.open .faq-chevron {
+      transform: rotate(180deg);
+      background: var(--accent-light);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+    .faq-answer-inner {
+      padding: 0 0 20px;
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+    .faq-item.open .faq-answer { max-height: 300px; }
+
+    /* ── FINAL CTA ── */
+    .final-cta {
+      background: var(--text);
+      padding: 96px 0;
+      text-align: center;
+    }
+    .final-cta h2 {
+      font-size: clamp(28px, 4vw, 46px);
+      font-weight: 800;
+      color: white;
+      letter-spacing: -1px;
+      margin-bottom: 16px;
+    }
+    .final-cta p {
+      font-size: 17px;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 40px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .final-cta .btn-primary { padding: 14px 32px; font-size: 16px; }
+    .final-cta .btn-ghost-white {
+      padding: 14px 32px;
+      font-size: 16px;
+      background: transparent;
+      color: rgba(255,255,255,0.7);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+    }
+    .final-cta .btn-ghost-white:hover { background: rgba(255,255,255,0.07); color: white; }
+    .final-cta-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+    /* ── FOOTER ── */
+    .footer {
+      background: #0D0D0C;
+      padding: 72px 0 32px;
+      color: rgba(255,255,255,0.5);
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      gap: 48px;
+      margin-bottom: 56px;
+    }
+    .footer-brand .footer-logo {
+      display: flex; align-items: center; gap: 8px;
+      margin-bottom: 14px;
+    }
+    .footer-logo-icon {
+      width: 30px; height: 30px;
+      background: var(--accent);
+      border-radius: 7px;
+      display: flex; align-items: center; justify-content: center;
+      color: white; font-size: 13px; font-weight: 700;
+    }
+    .footer-logo-name { font-size: 15px; font-weight: 700; color: white; }
+    .footer-brand p { font-size: 13px; line-height: 1.65; max-width: 240px; }
+    .footer-col h5 {
+      font-size: 12px; font-weight: 700;
+      color: white; text-transform: uppercase; letter-spacing: 0.8px;
+      margin-bottom: 16px;
+    }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 9px; }
+    .footer-col ul li a {
+      font-size: 13px; color: rgba(255,255,255,0.5);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .footer-col ul li a:hover { color: white; }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding-top: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+    }
+    .footer-bottom-right { display: flex; gap: 20px; }
+    .footer-bottom a { color: rgba(255,255,255,0.4); text-decoration: none; }
+    .footer-bottom a:hover { color: white; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .navbar-links { display: none; }
+      .overview-grid { grid-template-columns: 1fr; gap: 40px; }
+      .features-grid { grid-template-columns: repeat(2, 1fr); }
+      .roles-grid { grid-template-columns: 1fr; }
+      .trust-grid { grid-template-columns: repeat(2, 1fr); }
+      .workflow-steps { flex-direction: column; gap: 24px; }
+      .workflow-steps::before { display: none; }
+      .workflow-step { padding: 0; text-align: left; display: flex; gap: 16px; align-items: flex-start; }
+      .workflow-step-num { margin: 0; flex-shrink: 0; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+      .showcase-mini-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px) {
+      .hero { padding: 56px 0 40px; }
+      .features-grid { grid-template-columns: 1fr; }
+      .trust-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+      .overview-right { grid-template-columns: 1fr; }
+      .navbar-cta .btn-ghost { display: none; }
+    }
+
+    /* Utility bar for utilities section */
+    .util-row {
+      display: flex; gap: 12px; margin-bottom: 12px; flex-wrap: wrap;
+    }
+    .util-card {
+      flex: 1; min-width: 120px;
+      background: white; border: 1px solid var(--border); border-radius: 6px;
+      padding: 10px 12px;
+    }
+    .util-card-title { font-size: 9px; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+    .util-metric { font-size: 14px; font-weight: 800; color: var(--text); }
+    .util-sub { font-size: 9px; color: var(--text-secondary); margin-top: 1px; }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     NAVBAR
+══════════════════════════════════════════ -->
+<nav class="navbar">
+  <div class="container">
+    <div class="navbar-inner">
+      <a href="#" class="navbar-logo">
+        <div class="navbar-logo-icon">ZN</div>
+        <div class="navbar-logo-text">
+          <span class="navbar-logo-name">Zoho Nest</span>
+          <span class="navbar-logo-tagline">HOA Portal</span>
+        </div>
+      </a>
+
+      <ul class="navbar-links">
+        <li><a href="#features">Product</a></li>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#roles">Solutions</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#faq">Blog</a></li>
+      </ul>
+
+      <div class="navbar-cta">
+        <a href="#" class="btn btn-ghost">Log in</a>
+        <a href="#" class="btn btn-primary">Book a Demo</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+
+<!-- ══════════════════════════════════════════
+     HERO
+══════════════════════════════════════════ -->
+<section class="hero section-white">
+  <div class="container">
+    <div class="fade-in">
+      <div class="hero-label">HOA Operations Platform</div>
+      <h1>Run your community with<br /><span>complete operational control.</span></h1>
+      <p class="hero-sub">Zoho Nest centralizes residents, finances, utilities, security, and daily operations into one platform built for HOA managers and boards.</p>
+      <div class="hero-cta">
+        <a href="#" class="btn btn-primary btn-primary-lg">Book a Demo</a>
+        <a href="#features" class="btn-outline-lg">Explore Features</a>
+      </div>
+      <p class="hero-trust">Trusted by <span>200+ residential communities</span> across India</p>
+    </div>
+
+    <!-- Dashboard Mockup -->
+    <div class="dashboard-wrapper fade-in">
+      <div class="browser-chrome">
+        <div class="browser-bar">
+          <div class="browser-dots">
+            <div class="browser-dot dot-red"></div>
+            <div class="browser-dot dot-yellow"></div>
+            <div class="browser-dot dot-green"></div>
+          </div>
+          <div class="browser-url">app.zohonest.com/dashboard</div>
+        </div>
+        <!-- Scale wrapper: 1200px wide dashboard scaled to ~880px -->
+        <div style="overflow: hidden; height: 410px;">
+          <div class="dashboard-scale-wrap">
+            <div class="dashboard-frame">
+
+              <!-- Sidebar -->
+              <div class="db-sidebar">
+                <div class="db-sidebar-logo">
+                  <div class="db-sidebar-logo-icon">ZN</div>
+                  <span class="db-sidebar-logo-text">Zoho Nest</span>
+                </div>
+                <div class="db-sidebar-section">
+                  <div class="db-sidebar-section-label">Core</div>
+                  <div class="db-nav-item active"><span class="db-nav-icon">▦</span> Dashboard</div>
+                  <div class="db-nav-item"><span class="db-nav-icon">👤</span> Residents</div>
+                  <div class="db-nav-item"><span class="db-nav-icon">🏢</span> Apartments</div>
+                  <div class="db-nav-item"><span class="db-nav-icon">🤝</span> Association</div>
+                  <div class="db-nav-item"><span class="db-nav-icon">🏘</span> Community</div>
+                </div>
+                <div class="db-sidebar-section">
+                  <div class="db-sidebar-section-label">Finance</div>
+                  <div class="db-nav-item"><span class="db-nav-icon">💳</span> Billing & Dues</div>
+                  <div class="db-nav-item"><span class="db-nav-icon">📊</span> Expenses</div>
+                </div>
+                <div class="db-sidebar-section">
+                  <div class="db-sidebar-section-label">Operations</div>
+                  <div class="db-nav-item"><span class="db-nav-icon">📢</span> Communications</div>
+                  <div class="db-nav-item"><span class="db-nav-icon">📋</span> Cases</div>
+                  <div class="db-nav-item"><span class="db-nav-icon">⚠️</span> Complaints</div>
+                  <div class="db-nav-item"><span class="db-nav-icon">📅</span> Events</div>
+                  <div class="db-nav-item"><span class="db-nav-icon">🚗</span> Visitors</div>
+                  <div class="db-nav-item"><span class="db-nav-icon">🔐</span> Security</div>
+                  <div class="db-nav-item"><span class="db-nav-icon">📦</span> Parcels</div>
+                  <div class="db-nav-item"><span class="db-nav-icon">🏊</span> Amenities</div>
+                </div>
+              </div>
+
+              <!-- Main content -->
+              <div class="db-main">
+                <div class="db-topbar">
+                  <div class="db-topbar-left">
+                    <h2>Good morning, Admin User 👋</h2>
+                    <p>Monday, 14 April 2026 · Sunrise Tower Complex</p>
+                  </div>
+                  <div class="db-topbar-right">
+                    <div class="db-badge">9 Tasks Today</div>
+                    <div class="db-avatar">AU</div>
+                  </div>
+                </div>
+
+                <div class="db-content">
+                  <!-- Stat Cards -->
+                  <div class="db-stats">
+                    <div class="db-stat-card">
+                      <div class="db-stat-label">Total Units</div>
+                      <div class="db-stat-value">750</div>
+                      <div class="db-stat-sub">5 Towers × 150 each</div>
+                    </div>
+                    <div class="db-stat-card">
+                      <div class="db-stat-label">Total Residents</div>
+                      <div class="db-stat-value">3,124</div>
+                      <div class="db-stat-sub">Across all towers</div>
+                    </div>
+                    <div class="db-stat-card">
+                      <div class="db-stat-label">Monthly Collection</div>
+                      <div class="db-stat-value green">₹87.5L</div>
+                      <div class="db-stat-sub">April 2026</div>
+                    </div>
+                    <div class="db-stat-card">
+                      <div class="db-stat-label">Pending Dues</div>
+                      <div class="db-stat-value red">₹4.25L</div>
+                      <div class="db-stat-sub">38 units overdue</div>
+                    </div>
+                  </div>
+
+                  <!-- Utility quick stats -->
+                  <div class="util-row">
+                    <div class="util-card">
+                      <div class="util-card-title">Raw Water</div>
+                      <div class="util-metric">12 / 20</div>
+                      <div class="util-sub">Tanks active</div>
+                    </div>
+                    <div class="util-card">
+                      <div class="util-card-title">Treated Water</div>
+                      <div class="util-metric">9 / 15</div>
+                      <div class="util-sub">Tanks active</div>
+                    </div>
+                    <div class="util-card">
+                      <div class="util-card-title">Gas Connected</div>
+                      <div class="util-metric">120</div>
+                      <div class="util-sub">161 Full · 19 Empty</div>
+                    </div>
+                    <div class="util-card" style="flex:2;">
+                      <div class="util-card-title">Manpower on Duty (A-Shift)</div>
+                      <div class="util-metric" style="font-size:11px; font-weight:600;">Pushpanathan · Jeeva · Kumar · Sathish · Mohan · Nithara</div>
+                      <div class="util-sub">6 staff on duty</div>
+                    </div>
+                  </div>
+
+                  <!-- Middle row -->
+                  <div class="db-middle">
+                    <div class="db-card">
+                      <div class="db-card-title">
+                        DG Status
+                        <span class="db-card-badge">6 Units</span>
+                      </div>
+                      <table class="db-table">
+                        <thead>
+                          <tr>
+                            <th>Unit</th>
+                            <th>Status</th>
+                            <th>Run Hrs</th>
+                            <th>KWH</th>
+                            <th>Diesel (L)</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr><td>DG-01</td><td><span class="status-dot on"></span>Running</td><td>4.2</td><td>320</td><td>42</td></tr>
+                          <tr><td>DG-02</td><td><span class="status-dot on"></span>Running</td><td>3.8</td><td>290</td><td>38</td></tr>
+                          <tr><td>DG-03</td><td><span class="status-dot off"></span>Standby</td><td>0.0</td><td>—</td><td>—</td></tr>
+                          <tr><td>DG-04</td><td><span class="status-dot on"></span>Running</td><td>5.1</td><td>410</td><td>51</td></tr>
+                          <tr><td>DG-05</td><td><span class="status-dot off"></span>Standby</td><td>0.0</td><td>—</td><td>—</td></tr>
+                          <tr><td>DG-06</td><td><span class="status-dot on"></span>Running</td><td>2.9</td><td>210</td><td>29</td></tr>
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <!-- Today's Plan -->
+                    <div class="db-card">
+                      <div class="db-card-title">
+                        Today's Plan
+                        <span class="db-card-badge">9 tasks</span>
+                      </div>
+                      <ul class="plan-list">
+                        <li class="plan-item"><div class="plan-num">1</div><span class="plan-text">Well-4 Pipe line work</span></li>
+                        <li class="plan-item"><div class="plan-num">2</div><span class="plan-text">Tower 3 Leakage work</span></li>
+                        <li class="plan-item"><div class="plan-num">3</div><span class="plan-text">Basement Cleaning</span></li>
+                        <li class="plan-item"><div class="plan-num">4</div><span class="plan-text">Timer for All Tower Lighting</span></li>
+                        <li class="plan-item"><div class="plan-num">5</div><span class="plan-text">Flat 4032 Seepage follow up</span></li>
+                        <li class="plan-item"><div class="plan-num">6</div><span class="plan-text">In House Complaints</span></li>
+                        <li class="plan-item"><div class="plan-num">7</div><span class="plan-text">All Tower hanging light fixing</span></li>
+                        <li class="plan-item"><div class="plan-num">8</div><span class="plan-text">Fire Alarm check Tower 4</span></li>
+                        <li class="plan-item"><div class="plan-num">9</div><span class="plan-text">New Leakage Inspection</span></li>
+                      </ul>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     STATS BAR
+══════════════════════════════════════════ -->
+<div class="stats-bar">
+  <div class="container">
+    <div class="stats-bar-inner">
+      <span><span class="stats-bar-value">750 Units</span></span>
+      <span class="stats-bar-sep">·</span>
+      <span><span class="stats-bar-value">5 Towers</span></span>
+      <span class="stats-bar-sep">·</span>
+      <span><span class="stats-bar-value">3,124 Residents</span></span>
+      <span class="stats-bar-sep">·</span>
+      <span><span class="stats-bar-value">₹87.5L</span> monthly collection managed</span>
+      <span class="stats-bar-sep">·</span>
+      <span><span class="stats-bar-value">200+</span> communities in India</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     PRODUCT OVERVIEW
+══════════════════════════════════════════ -->
+<section class="product-overview section-white">
+  <div class="container">
+    <div class="overview-grid">
+      <div class="overview-left fade-in">
+        <h2>One platform.<br />Every layer of HOA operations.</h2>
+        <p>Most communities run on a patchwork of spreadsheets, WhatsApp groups, and manual registers. Zoho Nest replaces all of it — from the front gate to the finance committee.</p>
+        <p>Every resident, every unit, every maintenance task, every rupee collected or spent — captured, tracked, and accessible in one place. Your operations team gets clear daily task lists. Your board gets financial reports on demand. Your residents get a portal that actually works.</p>
+        <p>From diesel generator logs to dues collection, from parcel tracking to legal document storage — Zoho Nest is built around the real daily workflows of HOA managers in India, not a generic SaaS product retrofitted for communities.</p>
+        <p>Every tower. Every tenant. Every rupee.</p>
+      </div>
+      <div class="overview-right fade-in">
+        <div class="module-card">
+          <div class="module-card-icon">🏘</div>
+          <div class="module-card-title">Core</div>
+          <div class="module-card-items">Dashboard · Residents · Apartments · Association · Community</div>
+        </div>
+        <div class="module-card">
+          <div class="module-card-icon">💰</div>
+          <div class="module-card-title">Finance</div>
+          <div class="module-card-items">Billing & Dues · Expense Tracking · Monthly Collections</div>
+        </div>
+        <div class="module-card">
+          <div class="module-card-icon">⚙️</div>
+          <div class="module-card-title">Operations</div>
+          <div class="module-card-items">DG · Water · Gas · Tasks · Visitors · Parcels · CCTV · Events</div>
+        </div>
+        <div class="module-card">
+          <div class="module-card-icon">🔐</div>
+          <div class="module-card-title">Security</div>
+          <div class="module-card-items">Incidents · CCTV Oversight · Visitor Management · Parcel Tracking</div>
+        </div>
+        <div class="module-card">
+          <div class="module-card-icon">📢</div>
+          <div class="module-card-title">Communication</div>
+          <div class="module-card-items">Announcements · Cases · Complaints · Polls & Feedback · Amenities</div>
+        </div>
+        <div class="module-card">
+          <div class="module-card-icon">🗂</div>
+          <div class="module-card-title">Management</div>
+          <div class="module-card-items">Staff & Vendors · Document Vault · Legal Records · Reports · Admin</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     FEATURE ARCHITECTURE
+══════════════════════════════════════════ -->
+<section class="features section-gray" id="features">
+  <div class="container">
+    <div class="section-header fade-in">
+      <div class="section-label">Feature Architecture</div>
+      <h2>Built for the full complexity of community management</h2>
+      <p>Six operational clusters. Every module connected. No gaps between your data and your decisions.</p>
+    </div>
+
+    <div class="features-grid">
+      <div class="feature-card fade-in">
+        <div class="feature-icon">🏘</div>
+        <h3>Resident &amp; Community</h3>
+        <ul class="feature-list">
+          <li>Complete resident directory with flat mapping</li>
+          <li>Apartment-level ownership and tenancy records</li>
+          <li>Association member management &amp; roles</li>
+          <li>Community announcements and updates</li>
+          <li>Polls and resident feedback collection</li>
+          <li>Event management and booking</li>
+          <li>Amenity scheduling and access control</li>
+        </ul>
+      </div>
+
+      <div class="feature-card fade-in">
+        <div class="feature-icon">💳</div>
+        <h3>Finance &amp; Billing</h3>
+        <ul class="feature-list">
+          <li>Automated maintenance due generation</li>
+          <li>Monthly collection tracking by unit</li>
+          <li>Pending dues with aging report</li>
+          <li>Expense recording and categorization</li>
+          <li>Vendor payment tracking</li>
+          <li>Board-level financial summary reports</li>
+          <li>Collection rate monitoring by tower</li>
+        </ul>
+      </div>
+
+      <div class="feature-card fade-in">
+        <div class="feature-icon">⚙️</div>
+        <h3>Operations &amp; Maintenance</h3>
+        <ul class="feature-list">
+          <li>Daily task planning with assignment</li>
+          <li>DG run-hour and diesel consumption logs</li>
+          <li>Water level monitoring (raw &amp; treated)</li>
+          <li>Gas cylinder inventory (full / empty)</li>
+          <li>Work order creation and tracking</li>
+          <li>Manpower shift and duty management</li>
+          <li>Repeat task scheduling</li>
+        </ul>
+      </div>
+
+      <div class="feature-card fade-in">
+        <div class="feature-icon">🔐</div>
+        <h3>Security &amp; Access</h3>
+        <ul class="feature-list">
+          <li>Visitor entry logging by gate</li>
+          <li>Pre-authorized visitor pass generation</li>
+          <li>Security incident reporting and tracking</li>
+          <li>CCTV camera oversight and logs</li>
+          <li>Parcel receipt and delivery tracking</li>
+          <li>Resident notification on parcel arrival</li>
+          <li>Shift handover reports for security staff</li>
+        </ul>
+      </div>
+
+      <div class="feature-card fade-in">
+        <div class="feature-icon">📢</div>
+        <h3>Communication &amp; Cases</h3>
+        <ul class="feature-list">
+          <li>Push announcements to all residents</li>
+          <li>Structured complaint submission and routing</li>
+          <li>Case management with status tracking</li>
+          <li>Internal staff communications</li>
+          <li>Resident feedback and poll results</li>
+          <li>Escalation workflows for unresolved issues</li>
+          <li>Response time tracking per complaint type</li>
+        </ul>
+      </div>
+
+      <div class="feature-card fade-in">
+        <div class="feature-icon">🗂</div>
+        <h3>Staff &amp; Management</h3>
+        <ul class="feature-list">
+          <li>Staff profiles, shifts, and performance logs</li>
+          <li>Vendor directory and contract management</li>
+          <li>Secure document vault with access control</li>
+          <li>Legal records and compliance documents</li>
+          <li>Operational and financial report generation</li>
+          <li>Role-based access across all modules</li>
+          <li>Full admin panel and setup configuration</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     UNIFIED WORKFLOW
+══════════════════════════════════════════ -->
+<section class="workflow section-white">
+  <div class="container">
+    <div class="section-header fade-in">
+      <div class="section-label">Unified Workflow</div>
+      <h2>How a community manager starts their day</h2>
+      <p>One login. Complete situational awareness. Everything in the right sequence.</p>
+    </div>
+
+    <div class="workflow-steps fade-in">
+      <div class="workflow-step">
+        <div class="workflow-step-num">1</div>
+        <h4>Open Dashboard</h4>
+        <p>See total units, residents, collection status, and pending dues at a glance. No digging.</p>
+      </div>
+      <div class="workflow-step">
+        <div class="workflow-step-num">2</div>
+        <h4>Check Utilities</h4>
+        <p>Review DG run hours, water tank levels, and gas cylinder counts. Flag anything below threshold.</p>
+      </div>
+      <div class="workflow-step">
+        <div class="workflow-step-num">3</div>
+        <h4>Review Today's Plan</h4>
+        <p>9 tasks already assigned. Pipe work on Well-4, Tower 3 leakage, fire alarm checks. Assign teams.</p>
+      </div>
+      <div class="workflow-step">
+        <div class="workflow-step-num">4</div>
+        <h4>Handle Complaints</h4>
+        <p>Open the Cases module. Flat 4032 seepage is pending follow-up. Update status and notify resident.</p>
+      </div>
+      <div class="workflow-step">
+        <div class="workflow-step-num">5</div>
+        <h4>Track Collections</h4>
+        <p>₹4.25L in pending dues. Filter by tower. Send reminders to overdue units directly from the platform.</p>
+      </div>
+      <div class="workflow-step">
+        <div class="workflow-step-num">6</div>
+        <h4>Close &amp; Report</h4>
+        <p>Mark completed tasks. Log expenses incurred. Generate end-of-day summary for the board.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     ROLE-BASED VALUE
+══════════════════════════════════════════ -->
+<section class="roles section-gray" id="roles">
+  <div class="container">
+    <div class="section-header fade-in">
+      <div class="section-label">Role-Based Value</div>
+      <h2>Give your board the visibility they need.<br />Give your managers the tools to act.</h2>
+    </div>
+
+    <div class="roles-grid">
+      <div class="role-card fade-in">
+        <div class="role-card-tag">For HOA Managers</div>
+        <h3>Operational command, daily</h3>
+        <p class="role-desc">Everything you need to run the building without chasing information across five different systems.</p>
+        <ul class="role-benefits">
+          <li>Daily task assignment and tracking</li>
+          <li>DG, water, and gas monitoring</li>
+          <li>Vendor coordination and work orders</li>
+          <li>Incident reporting and resolution</li>
+          <li>Manpower shift management</li>
+          <li>Real-time complaint status</li>
+        </ul>
+      </div>
+
+      <div class="role-card fade-in">
+        <div class="role-card-tag">For Board Members</div>
+        <h3>Oversight without micromanaging</h3>
+        <p class="role-desc">Log in once a week and know exactly where the community stands — financially and operationally.</p>
+        <ul class="role-benefits">
+          <li>Monthly collection reports by tower</li>
+          <li>Expense tracking and budget vs. actuals</li>
+          <li>Pending dues with aging analysis</li>
+          <li>Compliance and legal document access</li>
+          <li>Vendor contract visibility</li>
+          <li>Board-level dashboards and summaries</li>
+        </ul>
+      </div>
+
+      <div class="role-card fade-in">
+        <div class="role-card-tag">For Residents</div>
+        <h3>Transparency and convenience</h3>
+        <p class="role-desc">No more chasing the management office. Residents get a portal that keeps them informed and in control.</p>
+        <ul class="role-benefits">
+          <li>Complaint submission and status tracking</li>
+          <li>Maintenance due payment and history</li>
+          <li>Event registration and amenity booking</li>
+          <li>Parcel delivery notifications</li>
+          <li>Community announcements</li>
+          <li>Polls and feedback participation</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     PRODUCT SHOWCASE
+══════════════════════════════════════════ -->
+<section class="showcase section-white">
+  <div class="container">
+    <div class="showcase-header fade-in">
+      <div class="section-label">Product Showcase</div>
+      <h2>See it in action</h2>
+      <p>From diesel generator logs to dues collection — all in one place.</p>
+    </div>
+
+    <!-- Large dashboard mockup repeated -->
+    <div class="dashboard-wrapper fade-in" style="margin-bottom: 32px;">
+      <div class="browser-chrome">
+        <div class="browser-bar">
+          <div class="browser-dots">
+            <div class="browser-dot dot-red"></div>
+            <div class="browser-dot dot-yellow"></div>
+            <div class="browser-dot dot-green"></div>
+          </div>
+          <div class="browser-url">app.zohonest.com/dashboard</div>
+        </div>
+        <div style="overflow: hidden; height: 410px;">
+          <div class="dashboard-scale-wrap">
+            <div class="dashboard-frame">
+              <div class="db-sidebar">
+                <div class="db-sidebar-logo">
+                  <div class="db-sidebar-logo-icon">ZN</div>
+                  <span class="db-sidebar-logo-text">Zoho Nest</span>
+                </div>
+                <div class="db-sidebar-section">
+                  <div class="db-sidebar-section-label">Core</div>
+                  <div class="db-nav-item active"><span class="db-nav-icon">▦</span> Dashboard</div>
+                  <div class="db-nav-item"><span class="db-nav-icon">👤</span> Residents</div>
+                  <div class="db-nav-item"><span class="db-nav-icon">🏢</span> Apartments</div>
+                  <div class="db-nav-item"><span class="db-nav-icon">🤝</span> Association</div>
+                </div>
+                <div class="db-sidebar-section">
+                  <div class="db-sidebar-section-label">Finance</div>
+                  <div class="db-nav-item"><span class="db-nav-icon">💳</span> Billing & Dues</div>
+                  <div class="db-nav-item"><span class="db-nav-icon">📊</span> Expenses</div>
+                </div>
+                <div class="db-sidebar-section">
+                  <div class="db-sidebar-section-label">Operations</div>
+                  <div class="db-nav-item"><span class="db-nav-icon">📢</span> Communications</div>
+                  <div class="db-nav-item"><span class="db-nav-icon">📋</span> Cases</div>
+                  <div class="db-nav-item"><span class="db-nav-icon">⚠️</span> Complaints</div>
+                  <div class="db-nav-item"><span class="db-nav-icon">🚗</span> Visitors</div>
+                  <div class="db-nav-item"><span class="db-nav-icon">📦</span> Parcels</div>
+                </div>
+                <div class="db-sidebar-section">
+                  <div class="db-sidebar-section-label">Management</div>
+                  <div class="db-nav-item"><span class="db-nav-icon">👥</span> Staff & Vendors</div>
+                  <div class="db-nav-item"><span class="db-nav-icon">📁</span> Doc Vault</div>
+                  <div class="db-nav-item"><span class="db-nav-icon">📈</span> Reports</div>
+                </div>
+              </div>
+              <div class="db-main">
+                <div class="db-topbar">
+                  <div class="db-topbar-left">
+                    <h2>Good morning, Admin User 👋</h2>
+                    <p>Monday, 14 April 2026 · Sunrise Tower Complex</p>
+                  </div>
+                  <div class="db-topbar-right">
+                    <div class="db-badge">9 Tasks Today</div>
+                    <div class="db-avatar">AU</div>
+                  </div>
+                </div>
+                <div class="db-content">
+                  <div class="db-stats">
+                    <div class="db-stat-card">
+                      <div class="db-stat-label">Total Units</div>
+                      <div class="db-stat-value">750</div>
+                      <div class="db-stat-sub">5 Towers × 150 each</div>
+                    </div>
+                    <div class="db-stat-card">
+                      <div class="db-stat-label">Total Residents</div>
+                      <div class="db-stat-value">3,124</div>
+                      <div class="db-stat-sub">Across all towers</div>
+                    </div>
+                    <div class="db-stat-card">
+                      <div class="db-stat-label">Monthly Collection</div>
+                      <div class="db-stat-value green">₹87.5L</div>
+                      <div class="db-stat-sub">April 2026</div>
+                    </div>
+                    <div class="db-stat-card">
+                      <div class="db-stat-label">Pending Dues</div>
+                      <div class="db-stat-value red">₹4.25L</div>
+                      <div class="db-stat-sub">38 units overdue</div>
+                    </div>
+                  </div>
+                  <div class="util-row">
+                    <div class="util-card">
+                      <div class="util-card-title">Raw Water</div>
+                      <div class="util-metric">12 / 20</div>
+                      <div class="util-sub">Tanks active</div>
+                    </div>
+                    <div class="util-card">
+                      <div class="util-card-title">Treated Water</div>
+                      <div class="util-metric">9 / 15</div>
+                      <div class="util-sub">Tanks active</div>
+                    </div>
+                    <div class="util-card">
+                      <div class="util-card-title">Gas Connected</div>
+                      <div class="util-metric">120</div>
+                      <div class="util-sub">161 Full · 19 Empty</div>
+                    </div>
+                    <div class="util-card" style="flex:2;">
+                      <div class="util-card-title">A-Shift Manpower</div>
+                      <div class="util-metric" style="font-size:11px;font-weight:600;">Pushpanathan · Jeeva · Kumar · Sathish · Mohan · Nithara</div>
+                      <div class="util-sub">6 staff on duty</div>
+                    </div>
+                  </div>
+                  <div class="db-middle">
+                    <div class="db-card">
+                      <div class="db-card-title">DG Status <span class="db-card-badge">6 Units</span></div>
+                      <table class="db-table">
+                        <thead>
+                          <tr><th>Unit</th><th>Status</th><th>Run Hrs</th><th>KWH</th><th>Diesel (L)</th></tr>
+                        </thead>
+                        <tbody>
+                          <tr><td>DG-01</td><td><span class="status-dot on"></span>Running</td><td>4.2</td><td>320</td><td>42</td></tr>
+                          <tr><td>DG-02</td><td><span class="status-dot on"></span>Running</td><td>3.8</td><td>290</td><td>38</td></tr>
+                          <tr><td>DG-03</td><td><span class="status-dot off"></span>Standby</td><td>0.0</td><td>—</td><td>—</td></tr>
+                          <tr><td>DG-04</td><td><span class="status-dot on"></span>Running</td><td>5.1</td><td>410</td><td>51</td></tr>
+                          <tr><td>DG-05</td><td><span class="status-dot off"></span>Standby</td><td>0.0</td><td>—</td><td>—</td></tr>
+                          <tr><td>DG-06</td><td><span class="status-dot on"></span>Running</td><td>2.9</td><td>210</td><td>29</td></tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div class="db-card">
+                      <div class="db-card-title">Today's Plan <span class="db-card-badge">9 tasks</span></div>
+                      <ul class="plan-list">
+                        <li class="plan-item"><div class="plan-num">1</div><span class="plan-text">Well-4 Pipe line work</span></li>
+                        <li class="plan-item"><div class="plan-num">2</div><span class="plan-text">Tower 3 Leakage work</span></li>
+                        <li class="plan-item"><div class="plan-num">3</div><span class="plan-text">Basement Cleaning</span></li>
+                        <li class="plan-item"><div class="plan-num">4</div><span class="plan-text">Timer for All Tower Lighting</span></li>
+                        <li class="plan-item"><div class="plan-num">5</div><span class="plan-text">Flat 4032 Seepage follow up</span></li>
+                        <li class="plan-item"><div class="plan-num">6</div><span class="plan-text">In House Complaints</span></li>
+                        <li class="plan-item"><div class="plan-num">7</div><span class="plan-text">All Tower hanging light fixing</span></li>
+                        <li class="plan-item"><div class="plan-num">8</div><span class="plan-text">Fire Alarm check Tower 4</span></li>
+                        <li class="plan-item"><div class="plan-num">9</div><span class="plan-text">New Leakage Inspection</span></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3 mini feature cards -->
+    <div class="showcase-mini-grid fade-in">
+      <!-- DG Status -->
+      <div class="showcase-mini-card">
+        <div class="showcase-mini-header">
+          <div class="mini-dot"></div>
+          DG Status Monitor
+        </div>
+        <div class="showcase-mini-body">
+          <table class="mini-table">
+            <thead>
+              <tr><th>Unit</th><th>Status</th><th>Run Hrs</th><th>KWH</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>DG-01</td><td><span class="status-dot on"></span>Running</td><td>4.2h</td><td>320</td></tr>
+              <tr><td>DG-02</td><td><span class="status-dot on"></span>Running</td><td>3.8h</td><td>290</td></tr>
+              <tr><td>DG-03</td><td><span class="status-dot off"></span>Standby</td><td>—</td><td>—</td></tr>
+              <tr><td>DG-04</td><td><span class="status-dot on"></span>Running</td><td>5.1h</td><td>410</td></tr>
+              <tr><td>DG-05</td><td><span class="status-dot off"></span>Standby</td><td>—</td><td>—</td></tr>
+              <tr><td>DG-06</td><td><span class="status-dot on"></span>Running</td><td>2.9h</td><td>210</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Today's Plan -->
+      <div class="showcase-mini-card">
+        <div class="showcase-mini-header">
+          <div class="mini-dot"></div>
+          Today's Plan · 9 Tasks
+        </div>
+        <div class="showcase-mini-body">
+          <div class="mini-plan-item"><div class="mini-plan-num">1</div>Well-4 Pipe line work</div>
+          <div class="mini-plan-item"><div class="mini-plan-num">2</div>Tower 3 Leakage work</div>
+          <div class="mini-plan-item"><div class="mini-plan-num">3</div>Basement Cleaning</div>
+          <div class="mini-plan-item"><div class="mini-plan-num">4</div>Timer for All Tower Lighting</div>
+          <div class="mini-plan-item"><div class="mini-plan-num">5</div>Flat 4032 Seepage follow up</div>
+          <div class="mini-plan-item"><div class="mini-plan-num">6</div>In House Complaints</div>
+          <div class="mini-plan-item"><div class="mini-plan-num">7</div>All Tower hanging light fixing</div>
+          <div class="mini-plan-item"><div class="mini-plan-num">8</div>Fire Alarm check Tower 4</div>
+          <div class="mini-plan-item"><div class="mini-plan-num">9</div>New Leakage Inspection</div>
+        </div>
+      </div>
+
+      <!-- Finance Summary -->
+      <div class="showcase-mini-card">
+        <div class="showcase-mini-header">
+          <div class="mini-dot"></div>
+          Finance Summary · April 2026
+        </div>
+        <div class="showcase-mini-body">
+          <div class="mini-finance-row">
+            <span class="mini-finance-label">Monthly Collection</span>
+            <span class="mini-finance-value green">₹87.5L</span>
+          </div>
+          <div class="mini-finance-row">
+            <span class="mini-finance-label">Pending Dues</span>
+            <span class="mini-finance-value red">₹4.25L</span>
+          </div>
+          <div class="mini-finance-row">
+            <span class="mini-finance-label">Total Units</span>
+            <span class="mini-finance-value">750</span>
+          </div>
+          <div class="mini-finance-row">
+            <span class="mini-finance-label">Overdue Units</span>
+            <span class="mini-finance-value red">38</span>
+          </div>
+          <div class="mini-finance-row">
+            <span class="mini-finance-label">Collection Rate</span>
+            <span class="mini-finance-value green">95.1%</span>
+          </div>
+          <div class="mini-finance-row">
+            <span class="mini-finance-label">Towers Covered</span>
+            <span class="mini-finance-value">5 / 5</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     TRUST
+══════════════════════════════════════════ -->
+<section class="trust section-gray">
+  <div class="container">
+    <div class="section-header fade-in">
+      <div class="section-label">Built on Trust</div>
+      <h2>Four pillars that make communities choose Zoho Nest</h2>
+    </div>
+
+    <div class="trust-grid">
+      <div class="trust-card fade-in">
+        <div class="trust-icon">🔍</div>
+        <h4>Transparency</h4>
+        <p>Every financial transaction, maintenance log, and decision is recorded and accessible to the right stakeholders. Your residents and board see exactly what's happening.</p>
+      </div>
+      <div class="trust-card fade-in">
+        <div class="trust-icon">✅</div>
+        <h4>Accountability</h4>
+        <p>Tasks are assigned to named individuals. Complaints route to responsible parties. Every action is timestamped. Nothing falls through the cracks because someone thought someone else was handling it.</p>
+      </div>
+      <div class="trust-card fade-in">
+        <div class="trust-icon">🔒</div>
+        <h4>Data Security</h4>
+        <p>Resident data, financial records, and legal documents are stored with role-based access controls. Staff see only what their role requires. Your sensitive data stays that way.</p>
+      </div>
+      <div class="trust-card fade-in">
+        <div class="trust-icon">🚀</div>
+        <h4>Adoption</h4>
+        <p>Designed for communities where staff may not be tech-savvy. The interface is direct, in plain language, with minimal clicks to complete common tasks. If your team can use a phone, they can use Zoho Nest.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     FAQ
+══════════════════════════════════════════ -->
+<section class="faq section-white" id="faq">
+  <div class="container">
+    <div class="section-header fade-in">
+      <div class="section-label">FAQ</div>
+      <h2>Common questions</h2>
+    </div>
+
+    <div class="faq-list fade-in">
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          How long does onboarding take?
+          <span class="faq-chevron">▾</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">Most communities are fully onboarded within 2–4 weeks. This includes data migration, staff training, and resident portal activation. Our onboarding team handles the heavy lifting — you provide the data, we do the configuration. Smaller complexes (under 200 units) are often live within a week.</div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Can different staff have different access levels?
+          <span class="faq-chevron">▾</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">Yes. Zoho Nest uses role-based access control across every module. A security guard sees visitor logs and incident forms. A finance officer sees billing and dues. A maintenance supervisor sees daily tasks and DG logs. Board members get read-only financial and operational reports. You control who sees what.</div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          How does resident billing work?
+          <span class="faq-chevron">▾</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">Maintenance dues are configured per unit or per flat type. The system automatically generates monthly bills, tracks payments, and flags overdue accounts. Residents receive notification via the portal or SMS. You can see collection status per unit, per floor, or per tower at any time. Reminders can be sent in bulk or per unit.</div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          How do residents access the platform?
+          <span class="faq-chevron">▾</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">Residents get access through a web portal and a mobile-friendly interface. Login credentials are issued unit by unit. Residents can file complaints, track parcel deliveries, view upcoming events, check their dues, and receive community announcements. No app download required — it works in any browser.</div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Can we migrate from our current system?
+          <span class="faq-chevron">▾</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">Yes. We support migration from spreadsheets, legacy HOA software, and other platforms. Our team will work with you to map your existing data — resident records, financial history, unit data — and import it cleanly. You don't start from zero. Historical billing records can be imported so there's continuity from day one.</div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Is our data secure?
+          <span class="faq-chevron">▾</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">Data is hosted on encrypted, access-controlled servers. All data in transit is encrypted via HTTPS. We maintain regular backups, and your community's data is logically isolated — it is never commingled with other communities. Legal documents and financial records in the Document Vault have additional access audit logging.</div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Does it support multiple towers?
+          <span class="faq-chevron">▾</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">Absolutely. Zoho Nest is designed for multi-tower complexes. The platform shown here manages 5 towers and 750 units. You can configure each tower independently for billing rates, maintenance schedules, and staff assignments, while still seeing aggregated reports across the entire complex at the top level.</div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          What support do you provide?
+          <span class="faq-chevron">▾</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">All plans include onboarding support and access to our help documentation. Paid plans include email and phone support with defined response times. Our team is based in India, familiar with HOA operations in Indian residential complexes, and available during business hours. Enterprise communities also get a dedicated account manager.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     FINAL CTA
+══════════════════════════════════════════ -->
+<section class="final-cta">
+  <div class="container fade-in">
+    <h2>Ready to bring order to your community?</h2>
+    <p>See how Zoho Nest works for your complex in a 30-minute live demo.</p>
+    <div class="final-cta-btns">
+      <a href="#" class="btn btn-primary" style="padding:14px 32px;font-size:16px;">Book a Demo</a>
+      <a href="#features" class="btn-ghost-white">Explore Features</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     FOOTER
+══════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <div class="footer-logo-icon">ZN</div>
+          <span class="footer-logo-name">Zoho Nest</span>
+        </div>
+        <p>HOA operations platform built for residential communities in India. Every tower. Every tenant. Every rupee.</p>
+      </div>
+
+      <div class="footer-col">
+        <h5>Product</h5>
+        <ul>
+          <li><a href="#">Dashboard</a></li>
+          <li><a href="#">Resident Management</a></li>
+          <li><a href="#">Billing & Dues</a></li>
+          <li><a href="#">Operations</a></li>
+          <li><a href="#">Security & Access</a></li>
+          <li><a href="#">Document Vault</a></li>
+          <li><a href="#">Reports</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Solutions</h5>
+        <ul>
+          <li><a href="#">For HOA Managers</a></li>
+          <li><a href="#">For Board Members</a></li>
+          <li><a href="#">For Residents</a></li>
+          <li><a href="#">Multi-Tower Complexes</a></li>
+          <li><a href="#">Gated Communities</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Company</h5>
+        <ul>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+        <h5 style="margin-top: 20px;">Legal</h5>
+        <ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© 2025 Zoho Nest. Built for community operations.</span>
+      <div class="footer-bottom-right">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Contact</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+<!-- ══════════════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════════════ -->
+<script>
+  // FAQ accordion
+  function toggleFaq(btn) {
+    const item = btn.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    // Close all
+    document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+    // Open clicked if it was closed
+    if (!isOpen) item.classList.add('open');
+  }
+
+  // Scroll fade-in
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
