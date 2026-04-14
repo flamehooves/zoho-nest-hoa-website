@@ -1265,6 +1265,767 @@
 </section>
 
 
+<!-- ═══════════════════════════════════════════════════════════════
+     PLATFORM ARCHITECTURE SECTION — insert between product-overview
+     </section> and the FEATURE ARCHITECTURE comment block
+════════════════════════════════════════════════════════════════ -->
+
+<style>
+/* ─────────────────────────────────────────────
+   PLATFORM ARCHITECTURE — pa- namespace
+───────────────────────────────────────────── */
+
+#platform-arch {
+  background: #0C1624;
+  padding: 96px 0 112px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Subtle radial background glow */
+#platform-arch::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 70% 50%, rgba(37,99,235,0.07) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 60% at 20% 30%, rgba(30,58,95,0.15) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+/* ── Layout ── */
+.pa-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 72px;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Left: Text panel ── */
+.pa-text {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.pa-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #2563EB;
+}
+
+.pa-label::before {
+  content: '';
+  display: block;
+  width: 18px;
+  height: 2px;
+  background: #2563EB;
+  border-radius: 2px;
+}
+
+.pa-headline {
+  font-size: clamp(26px, 3.2vw, 40px);
+  font-weight: 700;
+  line-height: 1.18;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.pa-subtext {
+  font-size: 15px;
+  line-height: 1.7;
+  color: rgba(255,255,255,0.55);
+  max-width: 440px;
+  margin: 0;
+}
+
+/* ── Pills ── */
+.pa-pills {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.pa-pill {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.06);
+  background: rgba(255,255,255,0.03);
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, transform 0.15s;
+  user-select: none;
+}
+
+.pa-pill:hover {
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(255,255,255,0.12);
+  transform: translateX(3px);
+}
+
+.pa-pill.is-active {
+  background: rgba(37,99,235,0.14);
+  border-color: rgba(37,99,235,0.4);
+}
+
+.pa-pill-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: box-shadow 0.2s;
+}
+
+.pa-pill.is-active .pa-pill-dot {
+  box-shadow: 0 0 0 3px rgba(37,99,235,0.25);
+}
+
+.pa-pill-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.75);
+  flex: 1;
+  transition: color 0.2s;
+}
+
+.pa-pill.is-active .pa-pill-name {
+  color: #ffffff;
+}
+
+.pa-pill-idx {
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.25);
+  font-variant-numeric: tabular-nums;
+}
+
+.pa-pill.is-active .pa-pill-idx {
+  color: rgba(37,99,235,0.7);
+}
+
+/* ── Description panel under pills ── */
+.pa-desc-panel {
+  min-height: 52px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  background: rgba(37,99,235,0.08);
+  border: 1px solid rgba(37,99,235,0.2);
+  font-size: 13px;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.6);
+  transition: opacity 0.25s, transform 0.25s;
+  margin-top: 4px;
+}
+
+.pa-desc-panel.pa-fade-swap {
+  opacity: 0;
+  transform: translateY(4px);
+}
+
+/* ── Right: 3D Stack ── */
+.pa-stack-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* enough vertical room for the isometric tilt */
+  min-height: 480px;
+  position: relative;
+}
+
+/* Perspective container */
+.pa-perspective {
+  perspective: 900px;
+  perspective-origin: 50% 40%;
+}
+
+/* 3-D scene that carries the rotateX+rotateZ isometric transform */
+.pa-scene {
+  transform-style: preserve-3d;
+  transform: rotateX(52deg) rotateZ(-28deg);
+  animation: pa-float 4s ease-in-out infinite;
+  /* layers will be stacked via translateZ; give the scene a base size */
+  width: 360px;
+  height: 360px;
+  position: relative;
+}
+
+/* Overall floating bob */
+@keyframes pa-float {
+  0%, 100% { transform: rotateX(52deg) rotateZ(-28deg) translateY(0px); }
+  50%       { transform: rotateX(52deg) rotateZ(-28deg) translateY(-14px); }
+}
+
+/* Entrance: scene starts collapsed, layers fly in */
+.pa-scene.pa-enter-pending {
+  animation-play-state: paused;
+}
+
+/* ── Individual layers ── */
+.pa-layer {
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  padding: 0 22px;
+  gap: 14px;
+  /* translateZ is set inline via --i */
+  transform: translateZ(calc(var(--i) * 72px)) translateY(var(--layer-lift, 0px));
+  transition:
+    transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.35s ease,
+    filter 0.35s ease;
+  cursor: pointer;
+  /* entrance animation — starts offscreen below, slides up */
+  opacity: 0;
+  animation: pa-layer-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: calc(var(--i) * 90ms + 200ms);
+  box-shadow:
+    0 2px 12px rgba(0,0,0,0.35),
+    inset 0 1px 0 rgba(255,255,255,0.06);
+}
+
+/* Entrance keyframes — fly up from a z-offset */
+@keyframes pa-layer-in {
+  from {
+    opacity: 0;
+    transform: translateZ(calc(var(--i) * 72px - 120px)) translateY(var(--layer-lift, 0px));
+  }
+  to {
+    opacity: 1;
+    transform: translateZ(calc(var(--i) * 72px)) translateY(var(--layer-lift, 0px));
+  }
+}
+
+/* When entrance is pending (not yet visible), keep hidden */
+.pa-scene.pa-enter-pending .pa-layer {
+  animation: none;
+  opacity: 0;
+}
+
+/* ── Layer hover / active lift ── */
+.pa-layer:hover {
+  --layer-lift: -28px;
+  filter: brightness(1.25);
+  box-shadow:
+    0 16px 40px rgba(0,0,0,0.45),
+    inset 0 1px 0 rgba(255,255,255,0.1);
+  z-index: 10;
+}
+
+/* Active highlighted layer (Operations, --i:3) default state */
+.pa-layer.is-active-layer {
+  --layer-lift: -14px;
+  filter: brightness(1.15);
+  box-shadow:
+    0 0 0 1.5px #2563EB,
+    0 0 24px rgba(37,99,235,0.35),
+    0 8px 24px rgba(0,0,0,0.4),
+    inset 0 1px 0 rgba(255,255,255,0.1);
+  animation:
+    pa-layer-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards,
+    pa-glow-pulse 3s ease-in-out infinite 0.8s;
+}
+
+/* Pill-triggered highlight — applied via JS */
+.pa-layer.is-pill-hover {
+  --layer-lift: -28px;
+  filter: brightness(1.3);
+  box-shadow:
+    0 0 0 1.5px rgba(255,255,255,0.25),
+    0 16px 40px rgba(0,0,0,0.5),
+    inset 0 1px 0 rgba(255,255,255,0.1);
+}
+
+/* Glow pulse for active layer */
+@keyframes pa-glow-pulse {
+  0%, 100% { box-shadow: 0 0 0 1.5px #2563EB, 0 0 24px rgba(37,99,235,0.35), 0 8px 24px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1); }
+  50%       { box-shadow: 0 0 0 1.5px #3B82F6, 0 0 40px rgba(37,99,235,0.55), 0 12px 32px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.12); }
+}
+
+/* ── Layer interior content ── */
+.pa-layer-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: rgba(255,255,255,0.75);
+  font-size: 18px;
+}
+
+.pa-layer-name {
+  flex: 1;
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.85);
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pa-layer-badge {
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.45);
+  background: rgba(0,0,0,0.2);
+  border-radius: 20px;
+  padding: 2px 10px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  letter-spacing: 0.02em;
+}
+
+.pa-layer.is-active-layer .pa-layer-badge {
+  color: #93C5FD;
+  background: rgba(37,99,235,0.25);
+}
+
+/* ── Shadow plane beneath the stack ── */
+.pa-stack-shadow {
+  position: absolute;
+  width: 280px;
+  height: 80px;
+  background: rgba(0,0,0,0.35);
+  border-radius: 50%;
+  filter: blur(28px);
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+/* ── Connector lines (decorative) ── */
+.pa-connectors {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: visible;
+  opacity: 0.18;
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .pa-inner {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .pa-stack-wrap {
+    min-height: 340px;
+  }
+  .pa-scene {
+    width: 300px;
+    height: 300px;
+  }
+  .pa-layer {
+    border-radius: 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  #platform-arch {
+    padding: 64px 0 80px;
+  }
+  .pa-stack-wrap {
+    display: none;
+  }
+  .pa-mobile-list {
+    display: flex !important;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 4px;
+  }
+}
+
+.pa-mobile-list {
+  display: none;
+}
+
+.pa-mobile-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.pa-mobile-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.pa-mobile-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.7);
+  flex: 1;
+}
+
+.pa-mobile-badge {
+  font-size: 11px;
+  color: rgba(255,255,255,0.3);
+}
+</style>
+
+
+<!-- PLATFORM ARCHITECTURE SECTION -->
+<section id="platform-arch">
+  <div class="container">
+    <div class="pa-inner">
+
+      <!-- ─── LEFT: Text + Pills ─── -->
+      <div class="pa-text">
+
+        <span class="pa-label">Platform Architecture</span>
+
+        <h2 class="pa-headline">Six modules.<br />One connected system.</h2>
+
+        <p class="pa-subtext">
+          Every layer of Zoho Nest feeds into the next. Resident data informs
+          billing. Operations logs feed reports. Security events trigger
+          communications. Nothing operates in isolation.
+        </p>
+
+        <!-- Interactive pills -->
+        <div class="pa-pills" role="list">
+
+          <div class="pa-pill" role="listitem" data-layer="0" tabindex="0"
+               aria-label="Management and Records module">
+            <span class="pa-pill-dot" style="background:#1E3A5F;border:1.5px solid rgba(255,255,255,0.18);"></span>
+            <span class="pa-pill-name">Management &amp; Records</span>
+            <span class="pa-pill-idx">01</span>
+          </div>
+
+          <div class="pa-pill" role="listitem" data-layer="1" tabindex="0"
+               aria-label="Communication and Cases module">
+            <span class="pa-pill-dot" style="background:#1A4A6B;border:1.5px solid rgba(255,255,255,0.18);"></span>
+            <span class="pa-pill-name">Communication &amp; Cases</span>
+            <span class="pa-pill-idx">02</span>
+          </div>
+
+          <div class="pa-pill" role="listitem" data-layer="2" tabindex="0"
+               aria-label="Security and Access module">
+            <span class="pa-pill-dot" style="background:#1B3D6E;border:1.5px solid rgba(255,255,255,0.18);"></span>
+            <span class="pa-pill-name">Security &amp; Access</span>
+            <span class="pa-pill-idx">03</span>
+          </div>
+
+          <div class="pa-pill is-active" role="listitem" data-layer="3" tabindex="0"
+               aria-label="Operations and Utilities module — currently highlighted">
+            <span class="pa-pill-dot" style="background:#2563EB;border:1.5px solid rgba(59,130,246,0.5);"></span>
+            <span class="pa-pill-name">Operations &amp; Utilities</span>
+            <span class="pa-pill-idx">04</span>
+          </div>
+
+          <div class="pa-pill" role="listitem" data-layer="4" tabindex="0"
+               aria-label="Finance and Billing module">
+            <span class="pa-pill-dot" style="background:#1E4080;border:1.5px solid rgba(255,255,255,0.18);"></span>
+            <span class="pa-pill-name">Finance &amp; Billing</span>
+            <span class="pa-pill-idx">05</span>
+          </div>
+
+          <div class="pa-pill" role="listitem" data-layer="5" tabindex="0"
+               aria-label="Core and Residents module">
+            <span class="pa-pill-dot" style="background:#243B6E;border:1.5px solid rgba(255,255,255,0.18);"></span>
+            <span class="pa-pill-name">Core &amp; Residents</span>
+            <span class="pa-pill-idx">06</span>
+          </div>
+
+        </div>
+
+        <!-- Description panel, updated on pill interaction -->
+        <div class="pa-desc-panel" id="pa-desc" role="status" aria-live="polite">
+          Real-time task tracking, DG monitoring, water and gas levels, daily
+          manpower scheduling, and utility oversight — the operational nerve
+          centre for every community.
+        </div>
+
+        <!-- Mobile-only flat list (stack hidden on small screens) -->
+        <div class="pa-mobile-list" aria-hidden="true">
+          <div class="pa-mobile-item">
+            <span class="pa-mobile-dot" style="background:#1E3A5F;"></span>
+            <span class="pa-mobile-name">Management &amp; Records</span>
+            <span class="pa-mobile-badge">5 modules</span>
+          </div>
+          <div class="pa-mobile-item">
+            <span class="pa-mobile-dot" style="background:#1A4A6B;"></span>
+            <span class="pa-mobile-name">Communication &amp; Cases</span>
+            <span class="pa-mobile-badge">5 modules</span>
+          </div>
+          <div class="pa-mobile-item">
+            <span class="pa-mobile-dot" style="background:#1B3D6E;"></span>
+            <span class="pa-mobile-name">Security &amp; Access</span>
+            <span class="pa-mobile-badge">4 modules</span>
+          </div>
+          <div class="pa-mobile-item" style="border-color:rgba(37,99,235,0.4);background:rgba(37,99,235,0.1);">
+            <span class="pa-mobile-dot" style="background:#2563EB;"></span>
+            <span class="pa-mobile-name" style="color:#93C5FD;">Operations &amp; Utilities</span>
+            <span class="pa-mobile-badge" style="color:#60A5FA;">6 modules</span>
+          </div>
+          <div class="pa-mobile-item">
+            <span class="pa-mobile-dot" style="background:#1E4080;"></span>
+            <span class="pa-mobile-name">Finance &amp; Billing</span>
+            <span class="pa-mobile-badge">4 modules</span>
+          </div>
+          <div class="pa-mobile-item">
+            <span class="pa-mobile-dot" style="background:#243B6E;"></span>
+            <span class="pa-mobile-name">Core &amp; Residents</span>
+            <span class="pa-mobile-badge">5 modules</span>
+          </div>
+        </div>
+
+      </div><!-- /pa-text -->
+
+
+      <!-- ─── RIGHT: Isometric 3-D Stack ─── -->
+      <div class="pa-stack-wrap" aria-hidden="true">
+
+        <!-- Blurred shadow on the "floor" -->
+        <div class="pa-stack-shadow"></div>
+
+        <!-- Perspective wrapper -->
+        <div class="pa-perspective">
+          <!-- 3-D scene: rotateX + rotateZ gives the isometric view -->
+          <div class="pa-scene pa-enter-pending" id="pa-scene">
+
+            <!--
+              Layer order in DOM: lowest --i first (bottom of stack).
+              translateZ(i * 72px) lifts each layer up in 3-D space.
+              The scene rotateX(52deg) + rotateZ(-28deg) projects that
+              into an isometric-style perspective.
+            -->
+
+            <!-- Layer 0 — Management & Records (bottom) -->
+            <div class="pa-layer"
+                 style="--i:0; background:#1E3A5F;"
+                 data-layer="0">
+              <span class="pa-layer-icon">
+                <i class="ph ph-briefcase"></i>
+              </span>
+              <span class="pa-layer-name">Management &amp; Records</span>
+              <span class="pa-layer-badge">5 modules</span>
+            </div>
+
+            <!-- Layer 1 — Communication & Cases -->
+            <div class="pa-layer"
+                 style="--i:1; background:#1A4A6B;"
+                 data-layer="1">
+              <span class="pa-layer-icon">
+                <i class="ph ph-megaphone"></i>
+              </span>
+              <span class="pa-layer-name">Communication &amp; Cases</span>
+              <span class="pa-layer-badge">5 modules</span>
+            </div>
+
+            <!-- Layer 2 — Security & Access -->
+            <div class="pa-layer"
+                 style="--i:2; background:#1B3D6E;"
+                 data-layer="2">
+              <span class="pa-layer-icon">
+                <i class="ph ph-shield-check"></i>
+              </span>
+              <span class="pa-layer-name">Security &amp; Access</span>
+              <span class="pa-layer-badge">4 modules</span>
+            </div>
+
+            <!-- Layer 3 — Operations & Utilities (accent / active) -->
+            <div class="pa-layer is-active-layer"
+                 style="--i:3; background:#2563EB;"
+                 data-layer="3">
+              <span class="pa-layer-icon" style="background:rgba(255,255,255,0.15);">
+                <i class="ph ph-wrench" style="color:#fff;"></i>
+              </span>
+              <span class="pa-layer-name" style="color:#fff;">Operations &amp; Utilities</span>
+              <span class="pa-layer-badge">6 modules</span>
+            </div>
+
+            <!-- Layer 4 — Finance & Billing -->
+            <div class="pa-layer"
+                 style="--i:4; background:#1E4080;"
+                 data-layer="4">
+              <span class="pa-layer-icon">
+                <i class="ph ph-receipt"></i>
+              </span>
+              <span class="pa-layer-name">Finance &amp; Billing</span>
+              <span class="pa-layer-badge">4 modules</span>
+            </div>
+
+            <!-- Layer 5 — Core & Residents (top) -->
+            <div class="pa-layer"
+                 style="--i:5; background:#243B6E;"
+                 data-layer="5">
+              <span class="pa-layer-icon">
+                <i class="ph ph-buildings"></i>
+              </span>
+              <span class="pa-layer-name">Core &amp; Residents</span>
+              <span class="pa-layer-badge">5 modules</span>
+            </div>
+
+          </div><!-- /pa-scene -->
+        </div><!-- /pa-perspective -->
+
+      </div><!-- /pa-stack-wrap -->
+
+    </div><!-- /pa-inner -->
+  </div><!-- /container -->
+</section>
+
+
+<script>
+(function () {
+  'use strict';
+
+  /* ── Layer descriptions ── */
+  var PA_DESCS = [
+    'Document vault, staff and vendor contracts, admin panel, role-based access control, and audit-ready reporting for your board.',
+    'Announcements, complaint management, open cases, resident polls, and amenity bookings — all in one communication layer.',
+    'Visitor entry logs, security incident records, parcel tracking, CCTV oversight, and gate access management.',
+    'Real-time task tracking, DG monitoring, water and gas levels, daily manpower scheduling, and utility oversight — the operational nerve centre for every community.',
+    'Dues and billing, expense tracking, monthly collection dashboards, and pending payment monitoring for the finance committee.',
+    'Complete resident directory, unit and flat mapping, apartment ownership records, association member management, and the live operations dashboard.'
+  ];
+
+  /* ── DOM refs ── */
+  var scene    = document.getElementById('pa-scene');
+  var descEl   = document.getElementById('pa-desc');
+  var pills    = Array.from(document.querySelectorAll('#platform-arch .pa-pill'));
+  var layers   = Array.from(document.querySelectorAll('#platform-arch .pa-layer'));
+
+  /* ── Intersection Observer — trigger entrance animation ── */
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        scene.classList.remove('pa-enter-pending');
+        /* Re-enable the float animation now layers are visible */
+        scene.style.animationPlayState = 'running';
+        observer.disconnect();
+      }
+    });
+  }, { threshold: 0.15 });
+
+  if (scene) observer.observe(scene);
+
+  /* ── Active tracking ── */
+  var currentActive = 3; /* Operations is default */
+
+  function setActive(idx) {
+    /* Pills */
+    pills.forEach(function (p, i) {
+      p.classList.toggle('is-active', i === idx);
+    });
+
+    /* Layers */
+    layers.forEach(function (l, i) {
+      l.classList.remove('is-pill-hover');
+      if (i === 3) {
+        /* Layer 3 always carries is-active-layer for the glow,
+           only remove when another layer is explicitly hovered */
+        l.classList.toggle('is-active-layer', i === idx);
+      }
+    });
+
+    /* Description with fade-swap transition */
+    descEl.classList.add('pa-fade-swap');
+    setTimeout(function () {
+      descEl.textContent = PA_DESCS[idx] || '';
+      descEl.classList.remove('pa-fade-swap');
+    }, 220);
+
+    currentActive = idx;
+  }
+
+  /* ── Pill interactions ── */
+  pills.forEach(function (pill) {
+    var idx = parseInt(pill.getAttribute('data-layer'), 10);
+
+    pill.addEventListener('mouseenter', function () {
+      layers.forEach(function (l, i) {
+        l.classList.toggle('is-pill-hover', i === idx);
+        if (i === 3) l.classList.remove('is-active-layer');
+      });
+      /* Update desc without changing currentActive */
+      descEl.classList.add('pa-fade-swap');
+      setTimeout(function () {
+        descEl.textContent = PA_DESCS[idx] || '';
+        descEl.classList.remove('pa-fade-swap');
+      }, 220);
+    });
+
+    pill.addEventListener('mouseleave', function () {
+      layers.forEach(function (l, i) {
+        l.classList.remove('is-pill-hover');
+        if (i === 3) {
+          l.classList.toggle('is-active-layer', currentActive === 3);
+        }
+      });
+      /* Restore current active desc */
+      descEl.classList.add('pa-fade-swap');
+      setTimeout(function () {
+        descEl.textContent = PA_DESCS[currentActive] || '';
+        descEl.classList.remove('pa-fade-swap');
+      }, 220);
+    });
+
+    pill.addEventListener('click', function () {
+      setActive(idx);
+    });
+
+    /* Keyboard accessibility */
+    pill.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        setActive(idx);
+      }
+    });
+  });
+
+  /* ── Layer click / hover interactions ── */
+  layers.forEach(function (layer) {
+    var idx = parseInt(layer.getAttribute('data-layer'), 10);
+
+    layer.addEventListener('click', function () {
+      setActive(idx);
+    });
+
+    layer.addEventListener('mouseenter', function () {
+      /* Sync pill highlight on layer hover */
+      pills.forEach(function (p, i) {
+        if (i === idx) p.style.background = 'rgba(255,255,255,0.08)';
+      });
+    });
+
+    layer.addEventListener('mouseleave', function () {
+      pills.forEach(function (p, i) {
+        p.style.background = '';
+        /* Re-apply active state correctly */
+        if (i === currentActive) p.classList.add('is-active');
+      });
+    });
+  });
+
+})();
+</script>
+
+
 <!-- ══════════════════════════════════════════
      FEATURE ARCHITECTURE
 ══════════════════════════════════════════ -->
