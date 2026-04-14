@@ -7,6 +7,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" />
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -545,19 +547,33 @@
     .feature-card {
       background: var(--white);
       border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 28px;
+      border-radius: 14px;
+      overflow: hidden;
       box-shadow: var(--shadow);
+      transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
     }
+    .feature-card:hover {
+      box-shadow: 0 8px 28px rgba(0,0,0,0.09);
+      transform: translateY(-2px);
+      border-color: #c7d7fa;
+    }
+    .feature-card-img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      display: block;
+      border-bottom: 1px solid var(--border);
+    }
+    .feature-card-body { padding: 24px 24px 28px; }
     .feature-icon {
-      width: 44px; height: 44px;
+      width: 40px; height: 40px;
       background: var(--accent-light);
       border-radius: 10px;
       display: flex; align-items: center; justify-content: center;
-      font-size: 20px;
-      margin-bottom: 18px;
+      margin-bottom: 14px;
     }
-    .feature-card h3 { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 12px; }
+    .feature-icon i { font-size: 20px; color: var(--accent); }
+    .feature-card h3 { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 12px; }
     .feature-list { list-style: none; }
     .feature-list li {
       display: flex; align-items: flex-start; gap: 8px;
@@ -565,10 +581,9 @@
       margin-bottom: 7px;
       line-height: 1.5;
     }
-    .feature-list li::before {
-      content: "→";
-      color: var(--accent); font-size: 11px;
-      margin-top: 2px; flex-shrink: 0;
+    .feature-list li i {
+      font-size: 13px; color: var(--accent);
+      margin-top: 1px; flex-shrink: 0;
     }
 
     /* ── WORKFLOW ── */
@@ -985,27 +1000,27 @@
                 </div>
                 <div class="db-sidebar-section">
                   <div class="db-sidebar-section-label">Core</div>
-                  <div class="db-nav-item active"><span class="db-nav-icon">▦</span> Dashboard</div>
-                  <div class="db-nav-item"><span class="db-nav-icon">👤</span> Residents</div>
-                  <div class="db-nav-item"><span class="db-nav-icon">🏢</span> Apartments</div>
-                  <div class="db-nav-item"><span class="db-nav-icon">🤝</span> Association</div>
-                  <div class="db-nav-item"><span class="db-nav-icon">🏘</span> Community</div>
+                  <div class="db-nav-item active"><span class="db-nav-icon"><i class="ph ph-squares-four"></i></span> Dashboard</div>
+                  <div class="db-nav-item"><span class="db-nav-icon"><i class="ph ph-users"></i></span> Residents</div>
+                  <div class="db-nav-item"><span class="db-nav-icon"><i class="ph ph-buildings"></i></span> Apartments</div>
+                  <div class="db-nav-item"><span class="db-nav-icon"><i class="ph ph-handshake"></i></span> Association</div>
+                  <div class="db-nav-item"><span class="db-nav-icon"><i class="ph ph-tree"></i></span> Community</div>
                 </div>
                 <div class="db-sidebar-section">
                   <div class="db-sidebar-section-label">Finance</div>
-                  <div class="db-nav-item"><span class="db-nav-icon">💳</span> Billing & Dues</div>
-                  <div class="db-nav-item"><span class="db-nav-icon">📊</span> Expenses</div>
+                  <div class="db-nav-item"><span class="db-nav-icon"><i class="ph ph-receipt"></i></span> Billing & Dues</div>
+                  <div class="db-nav-item"><span class="db-nav-icon"><i class="ph ph-chart-bar"></i></span> Expenses</div>
                 </div>
                 <div class="db-sidebar-section">
                   <div class="db-sidebar-section-label">Operations</div>
-                  <div class="db-nav-item"><span class="db-nav-icon">📢</span> Communications</div>
-                  <div class="db-nav-item"><span class="db-nav-icon">📋</span> Cases</div>
-                  <div class="db-nav-item"><span class="db-nav-icon">⚠️</span> Complaints</div>
-                  <div class="db-nav-item"><span class="db-nav-icon">📅</span> Events</div>
-                  <div class="db-nav-item"><span class="db-nav-icon">🚗</span> Visitors</div>
-                  <div class="db-nav-item"><span class="db-nav-icon">🔐</span> Security</div>
-                  <div class="db-nav-item"><span class="db-nav-icon">📦</span> Parcels</div>
-                  <div class="db-nav-item"><span class="db-nav-icon">🏊</span> Amenities</div>
+                  <div class="db-nav-item"><span class="db-nav-icon"><i class="ph ph-megaphone"></i></span> Communications</div>
+                  <div class="db-nav-item"><span class="db-nav-icon"><i class="ph ph-folder-open"></i></span> Cases</div>
+                  <div class="db-nav-item"><span class="db-nav-icon"><i class="ph ph-warning"></i></span> Complaints</div>
+                  <div class="db-nav-item"><span class="db-nav-icon"><i class="ph ph-calendar"></i></span> Events</div>
+                  <div class="db-nav-item"><span class="db-nav-icon"><i class="ph ph-car"></i></span> Visitors</div>
+                  <div class="db-nav-item"><span class="db-nav-icon"><i class="ph ph-shield"></i></span> Security</div>
+                  <div class="db-nav-item"><span class="db-nav-icon"><i class="ph ph-package"></i></span> Parcels</div>
+                  <div class="db-nav-item"><span class="db-nav-icon"><i class="ph ph-star"></i></span> Amenities</div>
                 </div>
               </div>
 
@@ -1013,7 +1028,7 @@
               <div class="db-main">
                 <div class="db-topbar">
                   <div class="db-topbar-left">
-                    <h2>Good morning, Admin User 👋</h2>
+                    <h2>Good morning, Admin User</h2>
                     <p>Monday, 14 April 2026 · Sunrise Tower Complex</p>
                   </div>
                   <div class="db-topbar-right">
@@ -1164,7 +1179,7 @@
 
       <div class="module-card mc-core fade-in">
         <div class="module-card-accent"></div>
-        <div class="module-card-icon-wrap">🏘</div>
+        <div class="module-card-icon-wrap"><i class="ph ph-buildings" style="font-size:22px;color:#2563EB;"></i></div>
         <div class="module-card-title">Core &amp; Residents</div>
         <div class="module-card-desc">Your community directory and command center. Manage every unit, resident profile, apartment record, and association member — with a live operational dashboard always front and center.</div>
         <div class="module-tags">
@@ -1178,7 +1193,7 @@
 
       <div class="module-card mc-finance fade-in">
         <div class="module-card-accent"></div>
-        <div class="module-card-icon-wrap">💳</div>
+        <div class="module-card-icon-wrap"><i class="ph ph-receipt" style="font-size:22px;color:#16A34A;"></i></div>
         <div class="module-card-title">Finance &amp; Billing</div>
         <div class="module-card-desc">Track every rupee collected and spent. Issue dues, monitor pending payments, log expenses, and give your board a clear financial picture — without chasing spreadsheets at month end.</div>
         <div class="module-tags">
@@ -1191,7 +1206,7 @@
 
       <div class="module-card mc-ops fade-in">
         <div class="module-card-accent"></div>
-        <div class="module-card-icon-wrap">⚙️</div>
+        <div class="module-card-icon-wrap"><i class="ph ph-wrench" style="font-size:22px;color:#D97706;"></i></div>
         <div class="module-card-title">Operations &amp; Utilities</div>
         <div class="module-card-desc">Run daily operations without anything slipping through. Monitor diesel generators, water tank levels, and gas cylinders in real time. Assign and track maintenance tasks, shifts, and manpower each day.</div>
         <div class="module-tags">
@@ -1206,7 +1221,7 @@
 
       <div class="module-card mc-sec fade-in">
         <div class="module-card-accent"></div>
-        <div class="module-card-icon-wrap">🔐</div>
+        <div class="module-card-icon-wrap"><i class="ph ph-shield-check" style="font-size:22px;color:#DC2626;"></i></div>
         <div class="module-card-title">Security &amp; Access</div>
         <div class="module-card-desc">Know exactly who enters and exits your community. Log visitor entries, track security incidents, manage parcel deliveries, and maintain a full CCTV oversight record — all timestamped and searchable.</div>
         <div class="module-tags">
@@ -1219,7 +1234,7 @@
 
       <div class="module-card mc-comms fade-in">
         <div class="module-card-accent"></div>
-        <div class="module-card-icon-wrap">📢</div>
+        <div class="module-card-icon-wrap"><i class="ph ph-megaphone" style="font-size:22px;color:#7C3AED;"></i></div>
         <div class="module-card-title">Communication &amp; Community</div>
         <div class="module-card-desc">Keep residents informed and heard. Send announcements, resolve complaints, manage open cases, run polls for community decisions, and handle amenity bookings — without switching tools.</div>
         <div class="module-tags">
@@ -1233,7 +1248,7 @@
 
       <div class="module-card mc-mgmt fade-in">
         <div class="module-card-accent"></div>
-        <div class="module-card-icon-wrap">🗂️</div>
+        <div class="module-card-icon-wrap"><i class="ph ph-briefcase" style="font-size:22px;color:#0891B2;"></i></div>
         <div class="module-card-title">Management &amp; Records</div>
         <div class="module-card-desc">The back office for your board and management team. Store legal documents, manage staff and vendor contracts, pull audit-ready reports, and control role-based access from the admin panel.</div>
         <div class="module-tags">
@@ -1262,89 +1277,109 @@
     </div>
 
     <div class="features-grid">
+
       <div class="feature-card fade-in">
-        <div class="feature-icon">🏘</div>
-        <h3>Resident &amp; Community</h3>
-        <ul class="feature-list">
-          <li>Complete resident directory with flat mapping</li>
-          <li>Apartment-level ownership and tenancy records</li>
-          <li>Association member management &amp; roles</li>
-          <li>Community announcements and updates</li>
-          <li>Polls and resident feedback collection</li>
-          <li>Event management and booking</li>
-          <li>Amenity scheduling and access control</li>
-        </ul>
+        <img class="feature-card-img" src="https://images.unsplash.com/photo-1559329146-807aff9ff1fb?auto=format&fit=crop&w=800&q=80" alt="Residential apartment complex" loading="lazy" />
+        <div class="feature-card-body">
+          <div class="feature-icon"><i class="ph ph-buildings"></i></div>
+          <h3>Resident &amp; Community</h3>
+          <ul class="feature-list">
+            <li><i class="ph ph-arrow-right"></i>Complete resident directory with flat mapping</li>
+            <li><i class="ph ph-arrow-right"></i>Apartment-level ownership and tenancy records</li>
+            <li><i class="ph ph-arrow-right"></i>Association member management &amp; roles</li>
+            <li><i class="ph ph-arrow-right"></i>Community announcements and updates</li>
+            <li><i class="ph ph-arrow-right"></i>Polls and resident feedback collection</li>
+            <li><i class="ph ph-arrow-right"></i>Event management and booking</li>
+            <li><i class="ph ph-arrow-right"></i>Amenity scheduling and access control</li>
+          </ul>
+        </div>
       </div>
 
       <div class="feature-card fade-in">
-        <div class="feature-icon">💳</div>
-        <h3>Finance &amp; Billing</h3>
-        <ul class="feature-list">
-          <li>Automated maintenance due generation</li>
-          <li>Monthly collection tracking by unit</li>
-          <li>Pending dues with aging report</li>
-          <li>Expense recording and categorization</li>
-          <li>Vendor payment tracking</li>
-          <li>Board-level financial summary reports</li>
-          <li>Collection rate monitoring by tower</li>
-        </ul>
+        <img class="feature-card-img" src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=800&q=80" alt="Financial accounting documents" loading="lazy" />
+        <div class="feature-card-body">
+          <div class="feature-icon" style="background:#F0FDF4;"><i class="ph ph-receipt" style="color:#16A34A;"></i></div>
+          <h3>Finance &amp; Billing</h3>
+          <ul class="feature-list">
+            <li><i class="ph ph-arrow-right"></i>Automated maintenance due generation</li>
+            <li><i class="ph ph-arrow-right"></i>Monthly collection tracking by unit</li>
+            <li><i class="ph ph-arrow-right"></i>Pending dues with aging report</li>
+            <li><i class="ph ph-arrow-right"></i>Expense recording and categorization</li>
+            <li><i class="ph ph-arrow-right"></i>Vendor payment tracking</li>
+            <li><i class="ph ph-arrow-right"></i>Board-level financial summary reports</li>
+            <li><i class="ph ph-arrow-right"></i>Collection rate monitoring by tower</li>
+          </ul>
+        </div>
       </div>
 
       <div class="feature-card fade-in">
-        <div class="feature-icon">⚙️</div>
-        <h3>Operations &amp; Maintenance</h3>
-        <ul class="feature-list">
-          <li>Daily task planning with assignment</li>
-          <li>DG run-hour and diesel consumption logs</li>
-          <li>Water level monitoring (raw &amp; treated)</li>
-          <li>Gas cylinder inventory (full / empty)</li>
-          <li>Work order creation and tracking</li>
-          <li>Manpower shift and duty management</li>
-          <li>Repeat task scheduling</li>
-        </ul>
+        <img class="feature-card-img" src="https://images.unsplash.com/photo-1614127938540-a1139bee1841?auto=format&fit=crop&w=800&q=80" alt="Building maintenance worker" loading="lazy" />
+        <div class="feature-card-body">
+          <div class="feature-icon" style="background:#FFFBEB;"><i class="ph ph-wrench" style="color:#D97706;"></i></div>
+          <h3>Operations &amp; Maintenance</h3>
+          <ul class="feature-list">
+            <li><i class="ph ph-arrow-right"></i>Daily task planning with assignment</li>
+            <li><i class="ph ph-arrow-right"></i>DG run-hour and diesel consumption logs</li>
+            <li><i class="ph ph-arrow-right"></i>Water level monitoring (raw &amp; treated)</li>
+            <li><i class="ph ph-arrow-right"></i>Gas cylinder inventory (full / empty)</li>
+            <li><i class="ph ph-arrow-right"></i>Work order creation and tracking</li>
+            <li><i class="ph ph-arrow-right"></i>Manpower shift and duty management</li>
+            <li><i class="ph ph-arrow-right"></i>Repeat task scheduling</li>
+          </ul>
+        </div>
       </div>
 
       <div class="feature-card fade-in">
-        <div class="feature-icon">🔐</div>
-        <h3>Security &amp; Access</h3>
-        <ul class="feature-list">
-          <li>Visitor entry logging by gate</li>
-          <li>Pre-authorized visitor pass generation</li>
-          <li>Security incident reporting and tracking</li>
-          <li>CCTV camera oversight and logs</li>
-          <li>Parcel receipt and delivery tracking</li>
-          <li>Resident notification on parcel arrival</li>
-          <li>Shift handover reports for security staff</li>
-        </ul>
+        <img class="feature-card-img" src="https://images.unsplash.com/photo-1515432085503-cabf2fbcd690?auto=format&fit=crop&w=800&q=80" alt="CCTV security cameras on building" loading="lazy" />
+        <div class="feature-card-body">
+          <div class="feature-icon" style="background:#FEF2F2;"><i class="ph ph-shield-check" style="color:#DC2626;"></i></div>
+          <h3>Security &amp; Access</h3>
+          <ul class="feature-list">
+            <li><i class="ph ph-arrow-right"></i>Visitor entry logging by gate</li>
+            <li><i class="ph ph-arrow-right"></i>Pre-authorized visitor pass generation</li>
+            <li><i class="ph ph-arrow-right"></i>Security incident reporting and tracking</li>
+            <li><i class="ph ph-arrow-right"></i>CCTV camera oversight and logs</li>
+            <li><i class="ph ph-arrow-right"></i>Parcel receipt and delivery tracking</li>
+            <li><i class="ph ph-arrow-right"></i>Resident notification on parcel arrival</li>
+            <li><i class="ph ph-arrow-right"></i>Shift handover reports for security staff</li>
+          </ul>
+        </div>
       </div>
 
       <div class="feature-card fade-in">
-        <div class="feature-icon">📢</div>
-        <h3>Communication &amp; Cases</h3>
-        <ul class="feature-list">
-          <li>Push announcements to all residents</li>
-          <li>Structured complaint submission and routing</li>
-          <li>Case management with status tracking</li>
-          <li>Internal staff communications</li>
-          <li>Resident feedback and poll results</li>
-          <li>Escalation workflows for unresolved issues</li>
-          <li>Response time tracking per complaint type</li>
-        </ul>
+        <img class="feature-card-img" src="https://images.unsplash.com/photo-1761666519882-59ab0dbe5059?auto=format&fit=crop&w=800&q=80" alt="Community residents gathering" loading="lazy" />
+        <div class="feature-card-body">
+          <div class="feature-icon" style="background:#F5F3FF;"><i class="ph ph-megaphone" style="color:#7C3AED;"></i></div>
+          <h3>Communication &amp; Cases</h3>
+          <ul class="feature-list">
+            <li><i class="ph ph-arrow-right"></i>Push announcements to all residents</li>
+            <li><i class="ph ph-arrow-right"></i>Structured complaint submission and routing</li>
+            <li><i class="ph ph-arrow-right"></i>Case management with status tracking</li>
+            <li><i class="ph ph-arrow-right"></i>Internal staff communications</li>
+            <li><i class="ph ph-arrow-right"></i>Resident feedback and poll results</li>
+            <li><i class="ph ph-arrow-right"></i>Escalation workflows for unresolved issues</li>
+            <li><i class="ph ph-arrow-right"></i>Response time tracking per complaint type</li>
+          </ul>
+        </div>
       </div>
 
       <div class="feature-card fade-in">
-        <div class="feature-icon">🗂</div>
-        <h3>Staff &amp; Management</h3>
-        <ul class="feature-list">
-          <li>Staff profiles, shifts, and performance logs</li>
-          <li>Vendor directory and contract management</li>
-          <li>Secure document vault with access control</li>
-          <li>Legal records and compliance documents</li>
-          <li>Operational and financial report generation</li>
-          <li>Role-based access across all modules</li>
-          <li>Full admin panel and setup configuration</li>
-        </ul>
+        <img class="feature-card-img" src="https://images.unsplash.com/photo-1551135049-8a33b5883817?auto=format&fit=crop&w=800&q=80" alt="Property management team reviewing documents" loading="lazy" />
+        <div class="feature-card-body">
+          <div class="feature-icon" style="background:#ECFEFF;"><i class="ph ph-briefcase" style="color:#0891B2;"></i></div>
+          <h3>Staff &amp; Management</h3>
+          <ul class="feature-list">
+            <li><i class="ph ph-arrow-right"></i>Staff profiles, shifts, and performance logs</li>
+            <li><i class="ph ph-arrow-right"></i>Vendor directory and contract management</li>
+            <li><i class="ph ph-arrow-right"></i>Secure document vault with access control</li>
+            <li><i class="ph ph-arrow-right"></i>Legal records and compliance documents</li>
+            <li><i class="ph ph-arrow-right"></i>Operational and financial report generation</li>
+            <li><i class="ph ph-arrow-right"></i>Role-based access across all modules</li>
+            <li><i class="ph ph-arrow-right"></i>Full admin panel and setup configuration</li>
+          </ul>
+        </div>
       </div>
+
     </div>
   </div>
 </section>
@@ -1486,35 +1521,35 @@
                 </div>
                 <div class="db-sidebar-section">
                   <div class="db-sidebar-section-label">Core</div>
-                  <div class="db-nav-item active"><span class="db-nav-icon">▦</span> Dashboard</div>
-                  <div class="db-nav-item"><span class="db-nav-icon">👤</span> Residents</div>
-                  <div class="db-nav-item"><span class="db-nav-icon">🏢</span> Apartments</div>
-                  <div class="db-nav-item"><span class="db-nav-icon">🤝</span> Association</div>
+                  <div class="db-nav-item active"><span class="db-nav-icon"><i class="ph ph-squares-four"></i></span> Dashboard</div>
+                  <div class="db-nav-item"><span class="db-nav-icon"><i class="ph ph-users"></i></span> Residents</div>
+                  <div class="db-nav-item"><span class="db-nav-icon"><i class="ph ph-buildings"></i></span> Apartments</div>
+                  <div class="db-nav-item"><span class="db-nav-icon"><i class="ph ph-handshake"></i></span> Association</div>
                 </div>
                 <div class="db-sidebar-section">
                   <div class="db-sidebar-section-label">Finance</div>
-                  <div class="db-nav-item"><span class="db-nav-icon">💳</span> Billing & Dues</div>
-                  <div class="db-nav-item"><span class="db-nav-icon">📊</span> Expenses</div>
+                  <div class="db-nav-item"><span class="db-nav-icon"><i class="ph ph-receipt"></i></span> Billing & Dues</div>
+                  <div class="db-nav-item"><span class="db-nav-icon"><i class="ph ph-chart-bar"></i></span> Expenses</div>
                 </div>
                 <div class="db-sidebar-section">
                   <div class="db-sidebar-section-label">Operations</div>
-                  <div class="db-nav-item"><span class="db-nav-icon">📢</span> Communications</div>
-                  <div class="db-nav-item"><span class="db-nav-icon">📋</span> Cases</div>
-                  <div class="db-nav-item"><span class="db-nav-icon">⚠️</span> Complaints</div>
-                  <div class="db-nav-item"><span class="db-nav-icon">🚗</span> Visitors</div>
-                  <div class="db-nav-item"><span class="db-nav-icon">📦</span> Parcels</div>
+                  <div class="db-nav-item"><span class="db-nav-icon"><i class="ph ph-megaphone"></i></span> Communications</div>
+                  <div class="db-nav-item"><span class="db-nav-icon"><i class="ph ph-folder-open"></i></span> Cases</div>
+                  <div class="db-nav-item"><span class="db-nav-icon"><i class="ph ph-warning"></i></span> Complaints</div>
+                  <div class="db-nav-item"><span class="db-nav-icon"><i class="ph ph-car"></i></span> Visitors</div>
+                  <div class="db-nav-item"><span class="db-nav-icon"><i class="ph ph-package"></i></span> Parcels</div>
                 </div>
                 <div class="db-sidebar-section">
                   <div class="db-sidebar-section-label">Management</div>
-                  <div class="db-nav-item"><span class="db-nav-icon">👥</span> Staff & Vendors</div>
-                  <div class="db-nav-item"><span class="db-nav-icon">📁</span> Doc Vault</div>
-                  <div class="db-nav-item"><span class="db-nav-icon">📈</span> Reports</div>
+                  <div class="db-nav-item"><span class="db-nav-icon"><i class="ph ph-users-three"></i></span> Staff & Vendors</div>
+                  <div class="db-nav-item"><span class="db-nav-icon"><i class="ph ph-folder"></i></span> Doc Vault</div>
+                  <div class="db-nav-item"><span class="db-nav-icon"><i class="ph ph-chart-line-up"></i></span> Reports</div>
                 </div>
               </div>
               <div class="db-main">
                 <div class="db-topbar">
                   <div class="db-topbar-left">
-                    <h2>Good morning, Admin User 👋</h2>
+                    <h2>Good morning, Admin User</h2>
                     <p>Monday, 14 April 2026 · Sunrise Tower Complex</p>
                   </div>
                   <div class="db-topbar-right">
