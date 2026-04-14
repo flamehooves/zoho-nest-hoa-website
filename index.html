@@ -420,36 +420,101 @@
       background: var(--white);
       padding: 96px 0;
     }
-    .overview-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 72px;
-      align-items: start;
+    .overview-intro {
+      text-align: center;
+      max-width: 680px;
+      margin: 0 auto 64px;
     }
-    .overview-left h2 {
-      font-size: clamp(28px, 3.5vw, 40px);
+    .overview-intro h2 {
+      font-size: clamp(28px, 3.5vw, 42px);
       font-weight: 800;
-      letter-spacing: -1px;
+      letter-spacing: -1.2px;
       line-height: 1.15;
-      margin-bottom: 28px;
+      margin-bottom: 18px;
       color: var(--text);
     }
-    .overview-left p {
-      font-size: 15px;
+    .overview-intro p {
+      font-size: 16px;
       color: var(--text-secondary);
-      margin-bottom: 16px;
       line-height: 1.7;
     }
-    .overview-right { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .module-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
     .module-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 32px 28px;
+      position: relative;
+      transition: box-shadow 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+    }
+    .module-card:hover {
+      box-shadow: 0 8px 28px rgba(0,0,0,0.09);
+      border-color: #c7d7fa;
+      transform: translateY(-2px);
+    }
+    .module-card-accent {
+      height: 3px;
+      border-radius: 2px;
+      margin-bottom: 24px;
+      width: 36px;
+    }
+    .module-card-icon-wrap {
+      width: 48px; height: 48px;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+      margin-bottom: 18px;
+    }
+    .module-card-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 10px;
+      letter-spacing: -0.3px;
+    }
+    .module-card-desc {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.65;
+      margin-bottom: 20px;
+    }
+    .module-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .module-tag {
+      font-size: 11.5px;
+      font-weight: 500;
+      color: var(--text-secondary);
       background: var(--bg);
       border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 16px;
+      border-radius: 20px;
+      padding: 3px 10px;
     }
-    .module-card-icon { font-size: 20px; margin-bottom: 8px; }
-    .module-card-title { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
-    .module-card-items { font-size: 11px; color: var(--text-secondary); line-height: 1.6; }
+    /* Per-module accent colors */
+    .mc-core   .module-card-accent { background: #2563EB; }
+    .mc-core   .module-card-icon-wrap { background: #EFF6FF; }
+    .mc-finance .module-card-accent { background: #16A34A; }
+    .mc-finance .module-card-icon-wrap { background: #F0FDF4; }
+    .mc-ops    .module-card-accent { background: #D97706; }
+    .mc-ops    .module-card-icon-wrap { background: #FFFBEB; }
+    .mc-sec    .module-card-accent { background: #DC2626; }
+    .mc-sec    .module-card-icon-wrap { background: #FEF2F2; }
+    .mc-comms  .module-card-accent { background: #7C3AED; }
+    .mc-comms  .module-card-icon-wrap { background: #F5F3FF; }
+    .mc-mgmt   .module-card-accent { background: #0891B2; }
+    .mc-mgmt   .module-card-icon-wrap { background: #ECFEFF; }
+    @media (max-width: 900px) {
+      .module-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .module-grid { grid-template-columns: 1fr; }
+    }
 
     /* ── FEATURE ARCHITECTURE ── */
     .features {
@@ -1091,46 +1156,95 @@
 ══════════════════════════════════════════ -->
 <section class="product-overview section-white">
   <div class="container">
-    <div class="overview-grid">
-      <div class="overview-left fade-in">
-        <h2>One platform.<br />Every layer of HOA operations.</h2>
-        <p>Most communities run on a patchwork of spreadsheets, WhatsApp groups, and manual registers. Zoho Nest replaces all of it — from the front gate to the finance committee.</p>
-        <p>Every resident, every unit, every maintenance task, every rupee collected or spent — captured, tracked, and accessible in one place. Your operations team gets clear daily task lists. Your board gets financial reports on demand. Your residents get a portal that actually works.</p>
-        <p>From diesel generator logs to dues collection, from parcel tracking to legal document storage — Zoho Nest is built around the real daily workflows of HOA managers in India, not a generic SaaS product retrofitted for communities.</p>
-        <p>Every tower. Every tenant. Every rupee.</p>
-      </div>
-      <div class="overview-right fade-in">
-        <div class="module-card">
-          <div class="module-card-icon">🏘</div>
-          <div class="module-card-title">Core</div>
-          <div class="module-card-items">Dashboard · Residents · Apartments · Association · Community</div>
-        </div>
-        <div class="module-card">
-          <div class="module-card-icon">💰</div>
-          <div class="module-card-title">Finance</div>
-          <div class="module-card-items">Billing & Dues · Expense Tracking · Monthly Collections</div>
-        </div>
-        <div class="module-card">
-          <div class="module-card-icon">⚙️</div>
-          <div class="module-card-title">Operations</div>
-          <div class="module-card-items">DG · Water · Gas · Tasks · Visitors · Parcels · CCTV · Events</div>
-        </div>
-        <div class="module-card">
-          <div class="module-card-icon">🔐</div>
-          <div class="module-card-title">Security</div>
-          <div class="module-card-items">Incidents · CCTV Oversight · Visitor Management · Parcel Tracking</div>
-        </div>
-        <div class="module-card">
-          <div class="module-card-icon">📢</div>
-          <div class="module-card-title">Communication</div>
-          <div class="module-card-items">Announcements · Cases · Complaints · Polls & Feedback · Amenities</div>
-        </div>
-        <div class="module-card">
-          <div class="module-card-icon">🗂</div>
-          <div class="module-card-title">Management</div>
-          <div class="module-card-items">Staff & Vendors · Document Vault · Legal Records · Reports · Admin</div>
+    <div class="overview-intro fade-in">
+      <h2>One platform.<br />Every layer of HOA operations.</h2>
+      <p>Most communities run on spreadsheets, WhatsApp groups, and manual registers. Zoho Nest replaces all of it — from the front gate to the finance committee. Every resident, rupee, and request in one place.</p>
+    </div>
+    <div class="module-grid">
+
+      <div class="module-card mc-core fade-in">
+        <div class="module-card-accent"></div>
+        <div class="module-card-icon-wrap">🏘</div>
+        <div class="module-card-title">Core &amp; Residents</div>
+        <div class="module-card-desc">Your community directory and command center. Manage every unit, resident profile, apartment record, and association member — with a live operational dashboard always front and center.</div>
+        <div class="module-tags">
+          <span class="module-tag">Dashboard</span>
+          <span class="module-tag">Residents</span>
+          <span class="module-tag">Apartments</span>
+          <span class="module-tag">Association Members</span>
+          <span class="module-tag">Community</span>
         </div>
       </div>
+
+      <div class="module-card mc-finance fade-in">
+        <div class="module-card-accent"></div>
+        <div class="module-card-icon-wrap">💳</div>
+        <div class="module-card-title">Finance &amp; Billing</div>
+        <div class="module-card-desc">Track every rupee collected and spent. Issue dues, monitor pending payments, log expenses, and give your board a clear financial picture — without chasing spreadsheets at month end.</div>
+        <div class="module-tags">
+          <span class="module-tag">Billing &amp; Dues</span>
+          <span class="module-tag">Expense Tracking</span>
+          <span class="module-tag">Monthly Collections</span>
+          <span class="module-tag">Pending Dues</span>
+        </div>
+      </div>
+
+      <div class="module-card mc-ops fade-in">
+        <div class="module-card-accent"></div>
+        <div class="module-card-icon-wrap">⚙️</div>
+        <div class="module-card-title">Operations &amp; Utilities</div>
+        <div class="module-card-desc">Run daily operations without anything slipping through. Monitor diesel generators, water tank levels, and gas cylinders in real time. Assign and track maintenance tasks, shifts, and manpower each day.</div>
+        <div class="module-tags">
+          <span class="module-tag">DG Monitoring</span>
+          <span class="module-tag">Water Levels</span>
+          <span class="module-tag">Gas Cylinders</span>
+          <span class="module-tag">Task Planning</span>
+          <span class="module-tag">Manpower</span>
+          <span class="module-tag">Events</span>
+        </div>
+      </div>
+
+      <div class="module-card mc-sec fade-in">
+        <div class="module-card-accent"></div>
+        <div class="module-card-icon-wrap">🔐</div>
+        <div class="module-card-title">Security &amp; Access</div>
+        <div class="module-card-desc">Know exactly who enters and exits your community. Log visitor entries, track security incidents, manage parcel deliveries, and maintain a full CCTV oversight record — all timestamped and searchable.</div>
+        <div class="module-tags">
+          <span class="module-tag">Visitor Log</span>
+          <span class="module-tag">Security Incidents</span>
+          <span class="module-tag">CCTV Oversight</span>
+          <span class="module-tag">Parcel Tracking</span>
+        </div>
+      </div>
+
+      <div class="module-card mc-comms fade-in">
+        <div class="module-card-accent"></div>
+        <div class="module-card-icon-wrap">📢</div>
+        <div class="module-card-title">Communication &amp; Community</div>
+        <div class="module-card-desc">Keep residents informed and heard. Send announcements, resolve complaints, manage open cases, run polls for community decisions, and handle amenity bookings — without switching tools.</div>
+        <div class="module-tags">
+          <span class="module-tag">Announcements</span>
+          <span class="module-tag">Complaints</span>
+          <span class="module-tag">Cases</span>
+          <span class="module-tag">Polls &amp; Feedback</span>
+          <span class="module-tag">Amenities</span>
+        </div>
+      </div>
+
+      <div class="module-card mc-mgmt fade-in">
+        <div class="module-card-accent"></div>
+        <div class="module-card-icon-wrap">🗂️</div>
+        <div class="module-card-title">Management &amp; Records</div>
+        <div class="module-card-desc">The back office for your board and management team. Store legal documents, manage staff and vendor contracts, pull audit-ready reports, and control role-based access from the admin panel.</div>
+        <div class="module-tags">
+          <span class="module-tag">Staff &amp; Vendors</span>
+          <span class="module-tag">Document Vault</span>
+          <span class="module-tag">Legal Records</span>
+          <span class="module-tag">Reports</span>
+          <span class="module-tag">Admin Panel</span>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
